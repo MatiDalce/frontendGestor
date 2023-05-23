@@ -1,0 +1,56 @@
+.btn {
+    border: none;
+    border-radius: 40px;
+    padding: 0.4em;
+    font-size: 2em;
+    color: var(--white-bg);
+    transition: ease-in-out 0.3s all;
+    cursor: pointer;
+    width: 100%;
+}
+
+.disabled-btn {
+    pointer-events: none;
+}
+
+/* EXTRA SMALL */
+@media screen and (max-width: 576px) {
+    .btn {
+        font-size: 1em;
+    }
+}
+/* SMALL */
+@media screen and (min-width: 577px) and (max-width: 767px) {
+    .btn {
+        font-size: 1.5em;
+        padding: 0.2em;
+    }
+}
+/* MEDIUM */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .btn {
+        font-size: 1.4em;
+        padding: 0.5em;
+    }
+}
+/* LARGE */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .btn {
+        font-size: 1.6em;
+        padding: 0.7em 0 ;
+    }
+}
+/* EXTRA LARGE */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    .btn {
+        font-size: 1.6em;
+        padding: 0.7em 0 ;
+    }
+}
+/* EXTRA EXTRA LARGE */
+@media screen and (min-width: 1400px) {
+    .btn {
+        font-size: 1.5em;
+        padding: 0.5em;
+    }
+}

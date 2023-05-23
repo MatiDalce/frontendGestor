@@ -1,0 +1,88 @@
+
+.input-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    margin: 5% 0;
+}
+
+.addPatient-box {
+    width: 40%;
+}
+
+.btn-addPatient-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5% 0;
+}
+
+.btn-addPatient-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+}
+
+.addPatient-error {
+    color: var(--red-bg);
+    text-align: center;
+    margin-top: 1%;
+}
+
+/* EXTRA SMALL */
+@media screen and (max-width: 576px) {
+    .input-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    .addPatient-box {
+        width: 90%;
+        margin: 3% 0;
+    }
+    .btn-addPatient-container {
+        font-size: 1.3em;
+    }
+}
+/* SMALL */
+@media screen and (min-width: 577px) and (max-width: 767px) {
+    .input-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    .addPatient-box {
+        width: 90%;
+        margin: 3% 0;
+    }
+    .btn-addPatient-container {
+        font-size: 1.3em;
+    }
+}
+/* MEDIUM */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .input-row {
+        flex-direction: column;
+        align-items: center;
+    }
+    .addPatient-box {
+        width: 90%;
+        margin: 3% 0;
+    }
+    .btn-addPatient-container {
+        margin-bottom: 5%;
+        font-size: 1.5em;
+    }
+}
+
+/* LARGE */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    
+}
+/* EXTRA LARGE */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    
+}
+/* EXTRA EXTRA LARGE */
+@media screen and (min-width: 1400px) {
+    
+}

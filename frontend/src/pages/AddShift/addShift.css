@@ -1,0 +1,118 @@
+.select-shift-center {
+    display: flex;
+    justify-content: center;
+}
+
+.select-shift-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    width: 30%;
+}
+
+.input-rowAdd-shift {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 2% 0;
+}
+
+.addShift-input-container {
+    width: 40%;
+    text-align: center;
+}
+
+.btn-addShift-container {
+    display: flex;
+    justify-content: center;
+    width: 20%;
+    margin: 2% auto;
+}
+
+.textarea-input-shift {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90% !important;
+    margin: auto;
+}
+
+.addShift-error {
+    color: var(--red-bg);
+    text-align: center;
+    margin-top: 1%;
+}
+
+/* EXTRA SMALL */
+@media screen and (max-width: 576px) {
+    .addShift-input-container {
+        width: 70%;
+    }
+    .select-patient-input {
+        width: 80%;
+        margin: auto;
+    }
+    .btn-addShift-container {
+        width: 40%;
+        font-size: 1.3em;
+    }
+    .select-shift-input {
+        width: 70%;
+    }
+        .input-rowAdd-shift {
+        flex-direction: column;
+    }
+}
+/* SMALL */
+@media screen and (min-width: 577px) and (max-width: 767px) {
+    .addShift-input-container {
+        width: 70%;
+    }
+    .select-patient-input {
+        width: 80%;
+        margin: auto;
+    }
+    .btn-addShift-container {
+        width: 40%;
+        font-size: 1.3em;
+    }
+    .select-shift-input {
+        width: 70%;
+    }
+        .input-rowAdd-shift {
+        flex-direction: column;
+    }
+}
+/* MEDIUM */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .addShift-input-container {
+        width: 70%;
+    }
+    .select-patient-input {
+        width: 80%;
+        margin: auto;
+    }
+    .btn-addShift-container {
+        width: 40%;
+        font-size: 1.3em;
+    }
+    .select-shift-input {
+        width: 70%;
+    }
+    .input-rowAdd-shift {
+        flex-direction: column;
+    }
+}
+/* LARGE */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    
+}
+/* EXTRA LARGE */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    
+}
+/* EXTRA EXTRA LARGE */
+@media screen and (min-width: 1400px) {
+    
+}

@@ -1,0 +1,135 @@
+
+.input-patient-row {
+    display: flex;
+    justify-content: space-around;
+    margin: 3% 0;
+}
+
+.patient-title {
+    text-align: center;
+    font-size: 3em;
+}
+
+.btn-patient-container {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-patient-box {
+    width: 15%;
+    margin: 2% 2%;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 325px;
+}
+
+.data-title {
+    font-size: 2em;
+}
+
+.data {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* EXTRA SMALL */
+@media screen and (max-width: 576px) {
+    .input-patient-row {
+        flex-direction: column;
+        margin: 0;
+    }
+    .input-box {
+        flex-direction: column;
+        margin: 3% 0;
+        width: 100%;
+    }
+    .btn-patient-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .btn-patient-box {
+        width: 80%;
+        margin: 4% 0;
+        font-size: 1.7em;
+    }
+    .data {
+        font-size: 1.5em;
+    }
+    .data-title {
+        font-size: 1.5em;
+    }
+}
+/* SMALL */
+@media screen and (min-width: 577px) and (max-width: 767px) {
+    .input-patient-row {
+        flex-direction: column;
+        margin: 0;
+    }
+    .input-box {
+        flex-direction: column;
+        margin: 3% 0;
+        width: 100%;
+    }
+    .btn-patient-box {
+        width: 26%;
+    }
+    .btn-patient-container {
+        flex-direction: column;
+        align-items: center;
+        margin: auto;
+        width: 50%;
+    }
+    .btn-patient-box {
+        width: 100%;
+        font-size: 1.4em;
+        margin: 5% 0;
+    }
+}
+/* MEDIUM */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .input-patient-row {
+        margin: 9% 0;
+    }
+    .data {
+        font-size: 1.5em;
+    }
+    .data-title {
+        font-size: 1.5em;
+    }
+    .btn-patient-container {
+        flex-direction: column;
+        align-items: center;
+        margin: auto;
+        width: 80%;
+    }
+    .btn-patient-box {
+        width: 100%;
+        font-size: 1.4em;
+        margin: 5% 0;
+    }
+}
+/* LARGE */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .input-patient-row {
+        margin: 6% 0;
+    }
+    .btn-patient-container {
+        font-size: 0.8em;
+    }
+}
+/* EXTRA LARGE */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    .input-patient-row {
+        margin: 6% 0;
+    }
+}
+/* EXTRA EXTRA LARGE */
+@media screen and (min-width: 1400px) {
+    
+}

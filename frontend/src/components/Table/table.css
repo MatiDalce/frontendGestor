@@ -1,0 +1,66 @@
+.table {
+    border-collapse: collapse;
+    width: 90%;
+    margin: 3% auto;
+}
+
+.table__heading,
+.table__cell {
+    border: 3px solid var(--skyblue-bg);
+    text-align: left;
+    padding: 0.5rem;
+}
+
+.table__row:hover {
+    background-color: var(--gray-bg);
+}
+
+.table__row:nth-child(even) {
+    background-color: var(--skyblue-bg);
+    color: var(--white-bg);
+}
+
+.table__row:nth-child(even):hover {
+    background-color: var(--secondary-skyblue-bg);
+}
+
+@media only screen and (max-width: 760px),
+    (min-device-width: 768px) and (max-device-width: 1024px) {
+    /* Force table to not be like tables anymore */
+    .table,
+    .table * {
+    display: block;
+    }
+
+    .table__body {
+        border: 3px solid var(--skyblue-bg);
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    .table__head {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    }
+
+    .table__cell {
+    display: block;
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+    }
+
+    .table__cell::before {
+    content: attr(data-label);
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 50%;
+    left: 0.5rem;
+    transform: translateY(-50%);
+    width: 50%;
+    padding-right: 0.5rem;
+    white-space: nowrap;
+    }
+}

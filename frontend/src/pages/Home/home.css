@@ -1,0 +1,123 @@
+.home-bg {
+    padding: 0;
+    margin: 0;
+    background-color: var(--skyblue-bg);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-container {
+    background-color: var(--white-bg);
+    width: 60vw;
+    height: 60vh;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-container-small {
+    width: 70%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-welcome {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 4%;
+}
+
+.btn-box-home {
+    width: 100%;
+    margin: 0 1%;
+}
+
+/* EXTRA SMALL */
+@media screen and (max-width: 576px) {
+    .headerTitle {
+        font-size: 2.5em;
+    }
+    .home-container-small {
+        width: 90%;
+    }
+    .home-container {
+        height: fit-content;
+        padding: 10% 0 ;
+        width: 90%;
+    }
+    .btn-box-home {
+        font-size: 2em;
+        margin-bottom: 5%;
+    }
+    .btn-welcome {
+        flex-direction: column;
+    }
+}
+/* SMALL */
+@media screen and (min-width: 577px) and (max-width: 767px) {
+    .headerTitle {
+        font-size: 2.5em;
+    }
+    .home-container-small {
+        width: 90%;
+    }
+    .home-container {
+        height: fit-content;
+        padding: 10% 0 ;
+        width: 90%;
+    }
+    .btn-box-home {
+        font-size: 2em;
+        margin-bottom: 5%;
+    }
+    .btn-welcome {
+        flex-direction: column;
+    }
+}
+/* MEDIUM */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .headerTitle {
+        font-size: 2.5em;
+    }
+    .home-container-small {
+        width: 90%;
+    }
+    .home-container {
+        height: fit-content;
+        padding: 10% 0 ;
+        width: 90%;
+    }
+    .btn-box-home {
+        font-size: 2em;
+        margin-bottom: 5%;
+    }
+    .btn-welcome {
+        flex-direction: column;
+    }
+}
+/* LARGE */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .btn-welcome {
+        flex-direction: column;
+        height: 100%;
+        font-size: 0.8em;
+    }
+}
+/* EXTRA LARGE */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    .home-container {
+        height: 50vh;
+    }
+}
+/* EXTRA EXTRA LARGE */
+@media screen and (min-width: 1400px) {
+    .home-container {
+        height: 50vh;
+    }
+}

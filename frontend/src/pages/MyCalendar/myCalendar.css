@@ -1,0 +1,35 @@
+.calendar-box {
+    margin: 5% auto 2% auto;
+    width: 90vw;
+}
+
+.spinner-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* EXTRA SMALL */
+@media screen and (max-width: 576px) {
+
+}
+/* SMALL */
+@media screen and (min-width: 577px) and (max-width: 767px) {
+
+}
+/* MEDIUM */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    
+}
+/* LARGE */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    
+}
+/* EXTRA LARGE */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    
+}
+/* EXTRA EXTRA LARGE */
+@media screen and (min-width: 1400px) {
+    
+}

@@ -1,0 +1,121 @@
+
+.input-rowEdit-shift {
+    display: flex;
+    justify-content: space-around;
+    margin: 2% 0;
+}
+
+.editShift-input-box {
+    width: 35%;
+}
+
+.editShift-textarea-box {
+    width: 90%;
+    margin-bottom: 3%;
+}
+
+.textarea-input-shift {
+    width: 100%;
+    align-items: center;
+}
+
+.btn-editShift-center {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-editShift-container {
+    width: 30%;
+}
+
+.editShift-error {
+    color: var(--red-bg);
+    text-align: center;
+    margin-top: 1%;
+}
+
+/* EXTRA SMALL */
+@media screen and (max-width: 576px) {
+    .btn-editShift-container {
+        font-size: 2em;
+        width: 50%;
+        margin-bottom: 2%;
+    }
+
+    .input-row-shift {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .editShift-input-box {
+        margin: 3% 0;
+        width: 80%;
+    }
+    
+    .btn-editShift-center {
+        display: flex;
+        justify-content: center;
+    }
+}
+/* SMALL */
+@media screen and (min-width: 577px) and (max-width: 767px) {
+    .btn-editShift-container {
+        font-size: 1.3em;
+        margin-bottom: 2%;
+    }
+
+    .input-rowEdit-shift {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .editShift-input-box {
+        margin: 3% 0;
+        width: 80%;
+    }
+    
+    .btn-editShift-center {
+        display: flex;
+        justify-content: center;
+    }
+}
+/* MEDIUM */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .editShift-input-box {
+        margin: 3% 0;
+    }
+    .editShift-textarea-box {
+        margin-bottom: 5%;
+    }
+    
+    .btn-editShift-center {
+        display: flex;
+        justify-content: center;
+    }
+}
+/* LARGE */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .editShift-input-box {
+        margin-bottom: 5%;
+    }
+    .editShift-textarea-box {
+        margin-bottom: 5%;
+    }
+    
+    .btn-editShift-center {
+        display: flex;
+        justify-content: center;
+    }
+}
+/* EXTRA LARGE */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    
+}
+/* EXTRA EXTRA LARGE */
+@media screen and (min-width: 1400px) {
+    
+}

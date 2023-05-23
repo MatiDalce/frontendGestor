@@ -1,0 +1,56 @@
+.selDropdown-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    width: 100%;
+    margin-bottom: 2%;
+}
+
+.selDropdown-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.selDropdown-input {
+    width: 100%;
+    border-radius: 20px;
+    border: 2px solid var(--skyblue-bg);
+    outline: none;
+    padding: 0.7em;
+    transition: ease-in-out 0.3s all;
+    font-size: 1.2em;
+    width: 100%;
+    text-align: center;
+}
+
+.selDropdown-heightWindow {
+    position: absolute;
+    top: 60px;
+    width: 95%;
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
+.selDropdown-list {
+    list-style: none;
+    background-color: #5bc0ebaf;
+    color: var(--white-bg);
+}
+
+.selDropdown-item {
+    font-size: 1.6em;
+}
+
+.selDropdown-item:hover {
+    cursor: pointer;
+    background-color: var(--skyblue-bg);
+    color: var(--white-bg);
+}
+
+.selDropdown-input-btn {
+    display: flex;
+}
+

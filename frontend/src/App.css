@@ -1,0 +1,42 @@
+
+/* TAMAÑOS */
+/* Extra small 576 o menos */
+/* Small 577 a 767 */
+/* Medium 768 a 991 */
+/* Large 992 a 1199 */
+/* Extra large 1200 a 1399 */
+/* Extra extra large 1400 o mas  */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+:root {
+  /* USO: var(--color) */
+  --skyblue-bg: #5BC0EB;
+  --secondary-skyblue-bg: #9cd6ef;
+  --third-skyblue-bg: #bde9fc;
+  --white-bg: #fff;
+  --red-bg: #EB5B5B;
+  --green-bg: #78EB5B;
+  --gray-bg: #f2f2f2;
+  --black-bg: #000;
+
+  /* CALENDARIO BOTONES  */
+  --fc-button-text-color: #fff;
+  --fc-button-bg-color: #5BC0EB;
+  --fc-button-border-color: #5BC0EB;
+  --fc-button-hover-bg-color: #9cd6ef;
+  --fc-button-hover-border-color: #9cd6ef;
+  --fc-button-active-bg-color: #9cd6ef;
+  --fc-button-active-border-color: #9cd6ef;
+}
+
+/* Alerta por encima de todo */
+.swal2-container {
+  z-index: 10000 !important;
+}

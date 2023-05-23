@@ -1,0 +1,109 @@
+.editPatient-title{
+    text-align: center;
+    font-size: 3em;
+    font-weight: lighter;
+}
+
+.input-editPatient-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    margin: 4% 0;
+}
+
+.input-editPatient-row-extra {
+    align-items: center !important;
+}
+
+.input-editPatient-box {
+    width: 40%;
+}
+
+.btn-editPatient-center {
+    display: flex;
+    justify-content: center;
+    margin: 5% 0;
+}
+
+.btn-editPatient-container {
+    display: flex;
+    justify-content: center;
+    width: 30%;
+}
+
+/* EXTRA SMALL */
+@media screen and (max-width: 576px) {
+    .input-editPatient-row {
+        margin: 0;
+        flex-direction: column;
+        align-items: center;
+    }
+    .input-editPatient-box {
+        width: 80%;
+        margin: 4% 0;
+    }
+    .editPatient-title{
+        font-size: 1.3em;
+    }
+    .btn-editPatient-container {
+        font-size: 1.5em;
+        width: 40%;
+    }
+}
+/* SMALL */
+@media screen and (min-width: 577px) and (max-width: 767px) {
+    .input-editPatient-row {
+        margin: 0;
+        flex-direction: column;
+        align-items: center;
+    }
+    .input-editPatient-box {
+        width: 80%;
+        margin: 2% 0;
+    }
+    .editPatient-title{
+        font-size: 1.6em;
+    }
+    .btn-editPatient-container {
+        font-size: 1.5em;
+        width: 40%;
+    }
+}
+/* MEDIUM */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .input-editPatient-row {
+        margin: 0;
+        flex-direction: column;
+        align-items: center;
+    }
+    .input-editPatient-box {
+        width: 80%;
+        margin: 2% 0;
+    }
+    .editPatient-title{
+        font-size: 2em;
+    }
+    .btn-editPatient-container {
+        font-size: 1.5em;
+        width: 40%;
+    }
+}
+/* LARGE */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .input-editPatient-row {
+        margin: 8% 0;
+    }
+    .editPatient-title{
+        font-size: 2.3em;
+    }
+}
+/* EXTRA LARGE */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    .editPatient-title{
+        font-size: 2.5em;
+    }
+}
+/* EXTRA EXTRA LARGE */
+@media screen and (min-width: 1400px) {
+    
+}

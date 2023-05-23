@@ -1,0 +1,130 @@
+.search-shift {
+    margin: auto;
+    width: 70vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+
+.shiftList-input-btn-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-evenly;
+    width: 70%;
+}
+
+.shiftList-input-box {
+    width: 60%;
+    margin-right: 2%;
+    text-align: center;
+}
+
+.shiftList-btn-box-search {
+    width: 30%;
+}
+
+.shiftList-btn-box {
+    display: flex;
+    align-items: flex-end;
+    width: 30%;
+    margin-left: 2%;
+}
+.noContent-text {
+    font-size: 2em;
+}
+
+/* EXTRA SMALL */
+@media screen and (max-width: 576px) {
+    .shiftList-input-btn-container {
+        width: 90%;
+    }
+    .shiftList-btn-box-search {
+        font-size: 1.2em;
+    }
+    .search-shift {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+    .shiftList-input-box {
+        width: 60%;
+        text-align: center;
+    }
+    .shiftList-btn-box {
+        width: 40%;
+        margin-top: 2%;
+        font-size: 1.2em;
+    }
+    .noContent-text {
+        font-size: 1.4em;
+    }
+}
+/* SMALL */
+@media screen and (min-width: 577px) and (max-width: 767px) {
+    .search-shift {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+    .shiftList-input-box {
+        width: 80%;
+        margin: 2% 0;
+        text-align: center;
+    }
+    .shiftList-btn-box {
+        width: 40%;
+        margin: 2% 0;
+        font-size: 1.2em;
+    }
+}
+/* MEDIUM */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .shiftList-input-btn-container {
+        width: 90%;
+    }
+    .search-shift {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+    .shiftList-input-box {
+        width: 80%;
+        text-align: center;
+    }
+    .shiftList-btn-box {
+        width: 40%;
+        margin-top: 2%;
+        font-size: 1.4em;
+    }
+}
+/* LARGE */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .search-shift {
+        width: 90%;
+    }
+    .shiftList-btn-box-search {
+        font-size: 0.8em;
+    }
+    .shiftList-btn-box {
+        font-size: 0.8em;
+    }
+}
+/* EXTRA LARGE */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    .shiftList-btn-box-search {
+        font-size: 0.8em;
+    }
+    .shiftList-btn-box {
+        font-size: 0.8em;
+    }
+}
+/* EXTRA EXTRA LARGE */
+@media screen and (min-width: 1400px) {
+    
+}

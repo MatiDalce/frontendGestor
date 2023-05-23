@@ -1,0 +1,15 @@
+.spinner-spinner {
+    display: block;
+    width: 70px;
+    height: 70px;
+    border: 7px solid var(--secondary-skyblue-bg);
+    border-radius: 50%;
+    border-top-color: var(--skyblue-bg);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}

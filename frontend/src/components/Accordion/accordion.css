@@ -1,0 +1,30 @@
+.accordion-input {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+}
+.accordion {
+    margin: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 4px -2px var(--gray-bg);
+}
+.accordion-label {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    background: var(--skyblue-bg);
+    color: #fff;
+}
+.accordion-content {
+    max-height: 0;
+    padding: 0 1em;
+    background: white;
+    transition: all 0.35s;
+}
+.accordion-input:checked ~ .accordion-content {
+    max-height: 100vh;
+    padding: 1em;
+}

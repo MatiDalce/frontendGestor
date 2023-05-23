@@ -1,0 +1,77 @@
+.search-patient-shifts {
+    margin: auto;
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.shiftPatientList-input-box {
+    width: 30%;
+}
+
+.noContent-text {
+    font-size: 2em;
+}
+
+/* EXTRA SMALL */
+@media screen and (max-width: 576px) {
+    .search-patient-shifts {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .shiftPatientList-input-box {
+        width: 80%;
+        margin: 2% 0;
+        text-align: center;
+    }
+    .noContent-text {
+        font-size: 1.4em;
+    }
+}
+/* SMALL */
+@media screen and (min-width: 577px) and (max-width: 767px) {
+    .search-patient-shifts {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .shiftPatientList-input-box {
+        width: 80%;
+        text-align: center;
+        margin: 2% 0;
+    }
+}
+/* MEDIUM */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .search-patient-shifts {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .shiftPatientList-input-box {
+        width: 80%;
+        margin: 2% 0;
+        text-align: center;
+    }
+}
+/* LARGE */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .search-patient-shifts {
+        width: 90%;
+    }
+    .shiftPatientList-input-box {
+        width: 26%;
+    }
+}
+/* EXTRA LARGE */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    .shiftPatientList-input-box {
+        width: 26%;
+    }
+}
+/* EXTRA EXTRA LARGE */
+@media screen and (min-width: 1400px) {
+    
+}

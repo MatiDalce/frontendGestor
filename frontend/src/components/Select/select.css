@@ -1,0 +1,52 @@
+.select-container {
+    max-width: 100%;
+}
+
+.label-select {
+    font-size: 1.2em;
+    font-weight: bold;
+    width: 100%;
+}
+
+.select-el {
+    border: 2px solid var(--skyblue-bg);
+    outline: none;
+    padding: 0.7em;
+    transition: ease-in-out 0.3s all;
+    font-size: 1.2em;
+    width: 100%;
+    margin-top: 2%;
+}
+.select-el::placeholder {
+    color: var(--skyblue-bg);
+    text-align: center;
+}
+
+.select-el:focus {
+    border-color: var(--secondary-skyblue-bg);
+}
+
+/* EXTRA SMALL */
+@media screen and (max-width: 576px) {
+
+}
+/* SMALL */
+@media screen and (min-width: 577px) and (max-width: 767px) {
+
+}
+/* MEDIUM */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    
+}
+/* LARGE */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    
+}
+/* EXTRA LARGE */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    
+}
+/* EXTRA EXTRA LARGE */
+@media screen and (min-width: 1400px) {
+    
+}

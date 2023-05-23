@@ -1,0 +1,115 @@
+.search-patient {
+    margin: auto;
+    width: 70vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.input-btn-search-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 70%;
+}
+
+.patientList-input {
+    width: 50%;
+    margin-right: 2%;
+}
+
+.patientList-btn-search {
+    width: 40%;
+}
+
+.patientList-btn {
+    width: 30%;
+    margin-left: 2%;
+}
+.noContent-text {
+    font-size: 2em;
+}
+
+.addPatient-refresh-center {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 5%;
+}
+
+.patientList-refresh-btn {
+    width: 10%;
+
+}
+
+/* EXTRA SMALL */
+@media screen and (max-width: 576px) {
+    .input-btn-search-container {
+        width: 90%;
+    }
+
+    .patientList-input {
+        width: 80%;
+    }
+    .patientList-btn {
+        width: 50%;
+        font-size: 1.3em;
+        margin-top: 2%;
+    }
+    .patientList-input {
+        width: 80%;
+    }
+    .search-patient {
+        justify-content: center;
+        width: 100%;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .noContent-text {
+        font-size: 1.4em;
+    }
+}
+/* SMALL */
+@media screen and (min-width: 577px) and (max-width: 767px) {
+    .input-btn-search-container {
+        width: 85%;
+    }
+
+    .search-patient {
+        width: 100%;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .patientList-input {
+        width: 80%;
+    }
+    .patientList-btn {
+        width: auto;
+        font-size: 1.3em;
+        margin: 2% 0;
+    }
+}
+/* MEDIUM */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .search-patient {
+        width: 80%;
+        justify-content: space-between;
+    }
+    .patientList-btn-search, .patientList-btn {
+        font-size: 0.9em;
+    }
+}
+/* LARGE */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .search-patient {
+        width: 80%;
+        justify-content: space-between;
+    }
+}
+/* EXTRA LARGE */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    
+}
+/* EXTRA EXTRA LARGE */
+@media screen and (min-width: 1400px) {
+    
+}

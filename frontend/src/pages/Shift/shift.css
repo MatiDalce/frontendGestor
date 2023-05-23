@@ -1,0 +1,115 @@
+.shift-title {
+    text-align: center;
+    font-size: 3em;
+}
+
+.btn-shift-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 1.3em;
+}
+
+.data-shift-box-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 2% 0;
+}
+
+.data-shift-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 15%;
+}
+
+.textarea-input-shift-center {
+    display: flex;
+    justify-content: center;
+}
+
+.textarea-input-box {
+    margin: 3% 0;
+    width: 90%;
+}
+
+.shift-btn-box {
+    width: 20%;
+    margin: 3% 0;
+}
+
+.shift-div-answer {
+    background-color: var(--white-bg);
+    border-radius: 20px;
+}
+
+.shift-shift-answer {
+    color: #000;
+    z-index: 1000;
+}
+
+/* EXTRA SMALL */
+@media screen and (max-width: 576px) {
+    .shift-title {
+        font-size: 2em;
+    }
+    .btn-shift-container {
+        flex-direction: column;
+    }
+    .shift-btn-box {
+        width: 90%;
+        font-size: 1.4em;
+    }
+
+    .data-shift-box-container {
+        flex-direction: column;
+    }
+
+    .data-shift-box {
+        margin-top: 5%;
+    }
+}
+/* SMALL */
+@media screen and (min-width: 577px) and (max-width: 767px) {
+    .shift-btn-box {
+        width: 70%;
+        font-size: 0.8em;
+    }
+    .btn-shift-container {
+        flex-direction: column;
+        font-size: 2em;
+    }
+    .shift-title {
+        font-size: 2em;
+    }
+}
+/* MEDIUM */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .btn-shift-container {
+        font-size: 1.5em;
+    }
+    .shift-title {
+        font-size: 2.5em;
+    }
+    .shift-btn-box {
+        width: 25%;
+        font-size: 0.7em;
+    }
+}
+/* LARGE */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    .btn-shift-container {
+        font-size: 1.3em;
+    }
+}
+/* EXTRA LARGE */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    .btn-shift-container {
+        font-size: 1.3em;
+    }
+}
+/* EXTRA EXTRA LARGE */
+@media screen and (min-width: 1400px) {
+
+}

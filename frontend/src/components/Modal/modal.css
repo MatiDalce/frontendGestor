@@ -1,0 +1,132 @@
+
+.modal-center {
+  width: 90vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 5%;
+  top: 5%;
+  position: fixed;
+  z-index: 1000;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.modal-fade-in {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.modal-fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+
+.modal-container {
+    height: 70vh;
+    width: 50vw;
+    padding: 2%;
+    background-color: var(--skyblue-bg);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    border-radius: 20px;
+    z-index: 2000;
+  }
+
+.divCloseModal {
+    width: 2%;
+    z-index: 1000;
+    position: relative;
+    top: 0;
+    right: -95%;
+}
+
+.closeModal {
+    cursor: pointer;
+    width: 20px;
+}
+
+.displayModal {
+  display: none;
+  pointer-events: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
+  .noContent-text {
+    font-size: 2em;
+  }
+
+  .appointment-title {
+    font-size: 3em;
+    text-align: center;
+    color: var(--white-bg);
+    margin-bottom: 5%;
+  }
+
+  .appointment-date, .appointment-sessionStatus {
+    font-size: 1.6em;
+    margin-bottom: 5%;
+    color: var(--white-bg);
+    text-align: center;
+  }
+
+  .appointment-desc-title {
+    font-size: 1.6em;
+    color: var(--white-bg);
+    margin-bottom: 5%;
+    text-align: center;
+  }
+  
+  .appointment-desc {
+    color: var(--gray-bg);
+    font-size: 1.3em;
+  }
+  
+
+  /* EXTRA SMALL */
+@media screen and (max-width: 576px) {
+  .noContent-text {
+    font-size: 1.4em;
+}
+}
+/* SMALL */
+@media screen and (min-width: 577px) and (max-width: 767px) {
+
+}
+/* MEDIUM */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    
+}
+/* LARGE */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    
+}
+/* EXTRA LARGE */
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    
+}
+/* EXTRA EXTRA LARGE */
+@media screen and (min-width: 1400px) {
+    
+}
