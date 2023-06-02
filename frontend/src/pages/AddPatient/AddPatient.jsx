@@ -178,6 +178,7 @@ const AddPatient = () => {
       socialService: patient.socialService,
       email: patient.email,
       gender: patient.gender,
+      sexualOrientation: patient.sexualOrientation,
       birthday: patient.birthday ? Date.parse(patient.birthday) / 1000 : 0, // Number
       maritalStatus: patient.maritalStatus,
       personalPhoneNumber: patient.personalPhoneNumber, // Number
