@@ -1,5 +1,5 @@
 import { 
-    createBrowserRouter,
+    createHashRouter,
     createRoutesFromChildren,
     Route
 } from "react-router-dom";
@@ -19,7 +19,7 @@ import EditShift from "./EditShift/EditShift";
 import EditPatient from "./EditPatient/EditPatient";
 
 // RUTAS
-export const router = createBrowserRouter(
+export const router = createHashRouter(
     createRoutesFromChildren(
         <Route path="/" element={<Navbar />}>
             <Route path="*" element={<Error />} />
