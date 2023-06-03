@@ -33,7 +33,9 @@ const PatientList = () => {
     })
     .finally(() => setLoading(false))
     .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
+      console.log('Fetch: Patient List: ', err);
+      alert('Error recuperando lista de pacientes ' + err);
+      navigate('/login');
     });
   }, [navigate])
 

@@ -54,10 +54,12 @@ const Patient = () => {
         patientNotExist()
       }
     })
-    .finally(() => setLoading(false))
     .catch(err => {
+      console.log('FETCH ERROR ',err);
       if(err.message === "auth") { navigate('/login'); }
-    });
+    })
+    .finally(() => setLoading(false));
+
   }, [id, navigate])
 
   // ===== DELETE DEL PACIENTE =====

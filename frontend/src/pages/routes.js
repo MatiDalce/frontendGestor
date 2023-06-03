@@ -1,25 +1,25 @@
 import { 
-    createBrowserRouter,
+    createHashRouter,
     createRoutesFromChildren,
     Route
 } from "react-router-dom";
 import Navbar from "../components/NavBar/Navbar";
-import Error from './Error/Error'
-import Login from './Login/Login'
-import Home from './Home/Home'
-import PatientList from './PatientList/PatientList'
-import AddPatient from './AddPatient/AddPatient'
-import Patient from './Patient/Patient'
-import MyCalendar from './MyCalendar/MyCalendar'
-import ShiftList from './ShiftList/ShiftList'
-import AddShift from './AddShift/AddShift'
-import Shift from './Shift/Shift'
+import Error from './Error/Error';
+import Login from './Login/Login';
+import Home from './Home/Home';
+import PatientList from './PatientList/PatientList';
+import AddPatient from './AddPatient/AddPatient';
+import Patient from './Patient/Patient';
+import MyCalendar from './MyCalendar/MyCalendar';
+import ShiftList from './ShiftList/ShiftList';
+import AddShift from './AddShift/AddShift';
+import Shift from './Shift/Shift';
 import ShiftPatientList from "./ShiftPatientList/ShiftPatientList";
 import EditShift from "./EditShift/EditShift";
 import EditPatient from "./EditPatient/EditPatient";
 
 // RUTAS
-export const router = createBrowserRouter(
+export const router = createHashRouter(
     createRoutesFromChildren(
         <Route path="/" element={<Navbar />}>
             <Route path="*" element={<Error />} />

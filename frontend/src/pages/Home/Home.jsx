@@ -1,9 +1,28 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import Title from '../../components/Title/Title';
+import { config } from '../../env/config';
 import './home.css';
 
 const Home = () => {
+  const navigate = useNavigate()
+
+  fetch(`${config.webAPI}/patients`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `${localStorage.getItem('token')}`
+    },
+  })
+  .then(res => {
+    if(res.status === 401 || res.status === 403) {
+      throw new Error('auth'); // No está autorizado
+    } else { return res.json() }
+  })
+  .catch(err => {
+    if(err.message === "auth") { navigate('/login'); }
+  });
+
   // ===== HTML =====
   return (
     <div className='home-bg'>
