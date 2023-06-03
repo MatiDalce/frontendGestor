@@ -227,7 +227,9 @@ const AddPatient = () => {
     .then(res => {
       if(!res.errors) {
         toast('success', 'Paciente agregado exitosamente')
-        navigate('/listado-pacientes')
+        navigate('/listado-pacientes', {
+          state: '/'
+        })
       } else {
         toast('error', 'No se pudo agregar el paciente. Revise los datos.')
         setError(true)

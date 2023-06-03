@@ -91,7 +91,9 @@ const AddShift = () => {
       .then((res) => {
         if(!res.errors) {
           toast('success', 'Turno agregado exitosamente');
-          navigate('/listado-turnos')
+          navigate('/listado-turnos', {
+            state: '/'
+          })
         } else {
           toast('error', 'No se pudo agregar el turno');
           setError(true)
