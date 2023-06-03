@@ -1,46 +1,35 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { errorAlert } from '../../assets/helpers/customAlert'
+import { config } from '../../env/config'
+import useGetFetch from '../../hooks/useGetFetch'
 import Table from '../../components/Table/Table'
 import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
 import './patientList.css'
-import { config } from '../../env/config'
-import { useNavigate } from 'react-router-dom'
 
 const PatientList = () => {
   const navigate = useNavigate();
   // ===== ESTADOS =====
   const [patients, setPatients] = useState([]);
   const [search, setSearch] = useState('');
-  const [loading, setLoading] = useState(true);
+
+  const { res, loading, error } = useGetFetch('patients/limit');
 
   useEffect(() => {
-    // ===== GET DE LISTADO DE PACIENTES =====
-    setLoading(true)
-    fetch(`${config.webAPI}/patients/limit`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
-    .then(res => {
-      if(res.length > 0) {
-        setPatients(res)
-      }
-    })
-    .finally(() => setLoading(false))
-    .catch(err => {
-      console.log('Fetch: Patient List: ', err);
-      alert('Error recuperando lista de pacientes ' + err);
+    if (error) {
+      errorAlert('Error: PatientList',`${(error.message && error.message.length) > 0 ? error.message : error}`);
       navigate('/login');
-    });
-  }, [navigate])
+    }
+    if (res && res.length > 0) {
+      setPatients(res);
+    }
+  }, [res, error, loading, navigate]);
+  
 
   // Filtro de pacientes
   const handleFilterPatients = (e) => {
+    
     fetch(`${config.webAPI}/patients/search?q=${search}`, {
       headers: {
         'Authorization': `${localStorage.getItem('token')}`
@@ -56,7 +45,8 @@ const PatientList = () => {
       setPatients(res.patientsWithCompleteName)
     })
     .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
+      errorAlert('Error: PatientList',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+      navigate('/login');
     });
   }
 
@@ -81,7 +71,8 @@ const PatientList = () => {
       setPatients(res)
     })
     .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
+      errorAlert('Error: PatientList',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+      navigate('/login');
     });
   }
 

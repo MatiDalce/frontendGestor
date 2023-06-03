@@ -10,13 +10,15 @@ import { config } from '../../env/config';
 import Modal from '../../components/Modal/Modal';
 import Spinner from '../../components/Spinner/Spinner';
 import './myCalendar.css';
+import useGetFetch from '../../hooks/useGetFetch';
+import { errorAlert } from '../../assets/helpers/customAlert';
 
 const MyCalendar = () => {
   const navigate = useNavigate()
   // ===== ESTADOS =====
   const [openModal, setOpenModal] = useState(false)
   const [eventsList, setEventsList] = useState([])
-  const [loading, setLoading] = useState(true)
+
   // ===== ESTADO: DATA QUE SE VE EN EL MODAL =====
   const [modalData, setModalData] = useState({
     id: 0,
@@ -26,37 +28,26 @@ const MyCalendar = () => {
     sessionStatus: '',
   })
 
-  useEffect(() => {
-    // ===== GET DE DATOS DEL CALENDARIO =====
-    fetch(`${config.webAPI}/appointments/calendar`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
-    .then(res => {
-      if(res && res.appointmentsCalendar.length > 0) {
-        // Esto modifica el array para que se coloquen los títulos en el calendario
-        const appointmentsCalendarWithTitles = res.appointmentsCalendar.map((obj) => {
-          return {
-            ...obj,
-            end: addOneHourISOString(obj.start), // Fecha de finalización del evento
-            title: obj.name
-          }
-        })
-        setEventsList(appointmentsCalendarWithTitles)
-      }
-    })
-    .finally(() => setLoading(false))
-    .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
-    });
-  }, [navigate])
+  const { res, loading, error } = useGetFetch('appointments/calendar');
 
+  useEffect(() => {
+    if (error) {
+      errorAlert('Error: MyCalendar',`${(error.message && error.message.length) > 0 ? error.message : error}`);
+      navigate('/login');
+    }
+    if (res && res.appointmentsCalendar.length > 0) {
+      // Esto modifica el array para que se coloquen los títulos en el calendario
+      const appointmentsCalendarWithTitles = res.appointmentsCalendar.map((obj) => {
+        return {
+          ...obj,
+          end: addOneHourISOString(obj.start), // Fecha de finalización del evento
+          title: obj.name
+        }
+      })
+      setEventsList(appointmentsCalendarWithTitles)
+    }
+  }, [res, error, loading, navigate]);
+  
   // El formato que necesita el calendario es ISOString con new Date(la fecha).toISOString()
 
   // ===== ABRE/CIERRA MODAL =====

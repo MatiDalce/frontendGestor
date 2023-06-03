@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { errorAlert } from '../../assets/helpers/customAlert';
 import Button from '../../components/Button/Button';
 import Title from '../../components/Title/Title';
 import { config } from '../../env/config';
@@ -20,7 +21,8 @@ const Home = () => {
     } else { return res.json() }
   })
   .catch(err => {
-    if(err.message === "auth") { navigate('/login'); }
+    errorAlert('Error: Home',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+    navigate('/login');
   });
 
   // ===== HTML =====

@@ -8,6 +8,8 @@ import Spinner from '../../components/Spinner/Spinner';
 import { convertISOStringtoDateTime } from '../../assets/helpers/unixtimeToSomething';
 import './shift.css'
 import Swal from 'sweetalert2';
+import { errorAlert } from '../../assets/helpers/customAlert';
+import useGetFetch from '../../hooks/useGetFetch';
 
 const Shift = () => {
   const navigate = useNavigate()
@@ -21,7 +23,8 @@ const Shift = () => {
     amount: '',
     hour: ''
   });
-  const [ loading, setLoading ] = useState(true)
+
+  const { res, loading, error } = useGetFetch(`appointments/${id}`);
 
   useEffect(() => {
     const shiftNotExist = () => {
@@ -34,42 +37,27 @@ const Shift = () => {
         navigate('/listado-turnos')
       })
     }
-    // ===== GET DEL TURNO =====
-    fetch(`${config.webAPI}/appointments/${id}`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
-    .then(res => {
-      if(res) {
-        if(res.message && res.message === "No appointment found for the given ID") {
-          shiftNotExist()
-        } else {
-          setShift({
-            name: res.patient.name,
-            lastName: res.patient.lastName,
-            status: res.payStatus,
-            amount: res.amountToPay,
-            note: res.note,
-            date: convertISOStringtoDateTime(res.day, 'date'),
-            hour: convertISOStringtoDateTime(res.day, 'hour')
-          })
-        }
-      } else {
-        toast('error', 'Algo salió mal, por favor recargue la página.')
+    if (error) {
+      errorAlert('Error: PatientList',`${(error.message && error.message.length) > 0 ? error.message : error}`);
+      navigate('/login');
+    }
+    if(res && Object.entries(res).length !== 0) {
+      if(res.message && res.message === "No appointment found for the given ID") {
         shiftNotExist()
+      } else {
+        setShift({
+          name: res.patient.name,
+          lastName: res.patient.lastName,
+          status: res.payStatus,
+          amount: res.amountToPay,
+          note: res.note,
+          date: convertISOStringtoDateTime(res.day, 'date'),
+          hour: convertISOStringtoDateTime(res.day, 'hour')
+        })
       }
-    })
-    .finally(() => setLoading(false))
-    .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
-    });
-  }, [id, navigate])
+    }
+
+  }, [id, res, error, loading, navigate])
 
   // ===== DELETE DEL TURNO =====
   const handleDeleteShift = () => {
@@ -108,7 +96,8 @@ const Shift = () => {
               }
             })
             .catch(err => {
-              if(err.message === "auth") { navigate('/login'); }
+              errorAlert('Error: Shift',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+              navigate('/login');
             });
         }
     })
@@ -149,7 +138,8 @@ const Shift = () => {
       }
     })
     .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
+      errorAlert('Error: Shift',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+      navigate('/login');
     });
   }
 

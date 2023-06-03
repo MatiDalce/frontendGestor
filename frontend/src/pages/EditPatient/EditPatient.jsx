@@ -10,6 +10,7 @@ import './editPatient.css';
 import { config } from '../../env/config';
 import { convertUnixtimeToDate } from '../../assets/helpers/unixtimeToSomething';
 import Swal from 'sweetalert2';
+import { errorAlert } from '../../assets/helpers/customAlert';
 
 const EditPatient = () => {
   const navigate = useNavigate()
@@ -107,10 +108,11 @@ const EditPatient = () => {
         patientNotExist()
       }
     })
-    .finally(() => setLoading(false))
     .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
-    });
+      errorAlert('Error: EditPatient',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+      navigate('/login');
+    })
+    .finally(() => setLoading(false));
   }, [id, navigate])
 
   // ===== MANEJADORES DE ESTADO =====
@@ -304,7 +306,8 @@ const EditPatient = () => {
           }
         })
         .catch(err => {
-          if(err.message === "auth") { navigate('/login'); }
+          errorAlert('Error: EditPatient',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+          navigate('/login');
         });
       } else return null
     })
@@ -580,10 +583,6 @@ const EditPatient = () => {
             isDisabled={loading}
             options={[
               {
-                value: null,
-                text: 'Seleccione un valor',
-              },
-              {
                 value: 'Primaria incompleta',
                 text: 'Primaria incompleta',
               },
@@ -635,10 +634,6 @@ const EditPatient = () => {
           <Select
             isDisabled={loading}
             options={[
-              {
-                value: null,
-                text: 'Seleccione un valor',
-              },
               {
                 value: 'Tipo A',
                 text: 'Tipo A',

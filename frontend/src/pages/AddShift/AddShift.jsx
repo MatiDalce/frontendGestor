@@ -3,11 +3,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { config } from '../../env/config';
 import { toast } from '../../assets/helpers/toast';
+import { errorAlert } from '../../assets/helpers/customAlert';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import SearchableDropdown from '../../components/SearchableDropdown/SearchableDropdown';
-import './addShift.css';
 import Select from '../../components/Select/Select';
+import './addShift.css';
+import useGetFetch from '../../hooks/useGetFetch';
 
 const AddShift = () => {
   const navigate = useNavigate()
@@ -21,38 +23,23 @@ const AddShift = () => {
   const [hour, setHour] = useState(0);
   const [amount, setAmount] = useState(0);
   const [note, setNote] = useState('');
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false)
 
+  const { res: patientRes, loading: patientLoading, error: patientError } = useGetFetch('patients/limit');
+  
   useEffect(() => {
-    // ===== GET: LISTA DE PACIENTES =====
-    fetch(`${config.webAPI}/patients/limit`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
-    .then(res => {
-      if(res.length > 0) {
-        const patientsListNames = res.map(patient => { return {text:patient.completeName, value:patient.id} });
-        setPatientList(patientsListNames)
-      }
-    })
-    .finally(() => {
-      // ===== SI VIENE DESDE LA PANTALLA DEL PACIENTE, SELECCIONA A ESE PACIENTE =====
-      if(state) {
-        setSelectedPatient({value: state.value, text: state.text})
-      }
-      setLoading(false)}
-    )
-    .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
-    })
-  }, [state, navigate]);
+    if (patientError) {
+      errorAlert('Error: PatientList in AddShift',`${(patientError.message && patientError.message.length) > 0 ? patientError.message : patientError}`);
+      navigate('/login');
+    }
+    if (patientRes && patientRes.length > 0) {
+      const patientsListNames = patientRes.map(patient => { return {text:patient.completeName, value:patient.id} });
+      setPatientList(patientsListNames)
+    }
+    if(state) {
+      setSelectedPatient({value: state.value, text: state.text})
+    }
+  }, [patientRes, patientError, patientLoading, navigate, state]);
 
   // ===== MANEJADORES DE ESTADOS =====
   const handleSelectPatient = (patient) => {
@@ -111,7 +98,8 @@ const AddShift = () => {
         }
       })
       .catch(err => {
-        if(err.message === "auth") { navigate('/login'); }
+        errorAlert('Error: AddShift',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+        navigate('/login');
       })
   }
 
@@ -151,10 +139,6 @@ const AddShift = () => {
         <div className="addShift-input-container">
           <Select
             options={[
-              {
-                value: null,
-                text: 'Seleccione un valor',
-              },
               {
                 value: 'Presencial',
                 text: 'Presencial',
@@ -252,7 +236,7 @@ const AddShift = () => {
             hour === 0 ||
             sessionStatus === '' ||
             note === '' ||
-            loading
+            patientLoading
           }
         />
       </div>

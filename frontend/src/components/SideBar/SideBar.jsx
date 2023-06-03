@@ -17,7 +17,11 @@ export const SideBar = (props) => {
 
     // Ocultar toda la pantalla
     const handleDownloadAppointments = () => {
-        fetch(`${config.webAPI}/appointments/download`)
+        fetch(`${config.webAPI}/appointments/download`, {
+            headers: {
+                'Authorization': `${localStorage.getItem('token')}`
+            }
+        })
         .then(response => {
             if(response.status === 401 || response.status === 403) {
                 throw new Error('auth'); // No está autorizado

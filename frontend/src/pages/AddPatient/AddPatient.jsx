@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '../../assets/helpers/toast'
 import { config } from '../../env/config';
+import { errorAlert } from '../../assets/helpers/customAlert';
 import Button from '../../components/Button/Button';
 import Checkbox from '../../components/Checkbox/Checkbox';
 import Input from '../../components/Input/Input';
@@ -222,7 +223,8 @@ const AddPatient = () => {
       }
     })
     .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
+      errorAlert('Error: AddPatient',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+      navigate('/login');
     });
   }
 
@@ -455,10 +457,6 @@ const AddPatient = () => {
           <Select
             options={[
               {
-                value: null,
-                text: 'Seleccione un valor',
-              },
-              {
                 value: 'Primaria incompleta',
                 text: 'Primaria incompleta',
               },
@@ -508,10 +506,6 @@ const AddPatient = () => {
         <div className="addPatient-box">
             <Select
               options={[
-                {
-                  value: null,
-                  text: 'Seleccione un valor',
-                },
                 {
                   value: 'Tipo A',
                   text: 'Tipo A',

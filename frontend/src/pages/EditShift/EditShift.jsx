@@ -9,6 +9,8 @@ import './editShift.css';
 import { convertISOStringtoDateTime, joinDateTimeToISOString } from '../../assets/helpers/unixtimeToSomething';
 import Swal from 'sweetalert2';
 import Select from '../../components/Select/Select';
+import { errorAlert } from '../../assets/helpers/customAlert';
+import useGetFetch from '../../hooks/useGetFetch';
 
 const EditShift = () => {
   const navigate = useNavigate();
@@ -23,6 +25,8 @@ const EditShift = () => {
   const [ loading, setLoading ] = useState(true)
   const [ error, setError ] = useState()
 
+  const { res, loadingData, errorData } = useGetFetch(`appointments/${id}`);
+
   useEffect(() => {
     const shiftNotExist = () => {
       Swal.fire({
@@ -34,43 +38,27 @@ const EditShift = () => {
         navigate('/listado-turnos')
       })
     }
-    // ===== GET DEL TURNO =====
-    setLoading(true)
-    fetch(`${config.webAPI}/appointments/${id}`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
-    .then(res => {
-      if(res) {
-        if(res.message && res.message === "No appointment found for the given ID") {
-          shiftNotExist()
-        } else {
-          let date = convertISOStringtoDateTime(res.day, 'date', true)
-          let hour = convertISOStringtoDateTime(res.day, 'hour')
-          setDate(date);
-          setHour(hour);
-          setStatus(res.payStatus);
-          setSessionStatus(res.sessionStatus);
-          setAmount(res.amountToPay);
-          setNotes(res.note);
-          setPatientID(res.patient.id)
-          setLoading(false)
-        }
-      } else {
-        toast('error', 'Algo salió mal, por favor recargue la página.')
+    if (errorData) {
+      errorAlert('Error: EditShift',`${(errorData.message && errorData.message.length) > 0 ? errorData.message : errorData}`);
+      navigate('/login');
+    }
+    if(res) {
+      if(res.message && res.message === "No appointment found for the given ID") {
         shiftNotExist()
+      } else {
+        let date = convertISOStringtoDateTime(res.day, 'date', true)
+        let hour = convertISOStringtoDateTime(res.day, 'hour')
+        setDate(date);
+        setHour(hour);
+        setStatus(res.payStatus);
+        setSessionStatus(res.sessionStatus);
+        setAmount(res.amountToPay);
+        setNotes(res.note);
+        setPatientID(res.patient.id)
+        setLoading(false)
       }
-    })
-    .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
-    });
-  }, [id, navigate])
+    }
+  }, [res, errorData, loadingData, navigate]);
 
   // ===== MANEJADORES DE ESTADO =====
   const handleDate = (e) => {
@@ -150,7 +138,8 @@ const EditShift = () => {
           }
         })
         .catch(err => {
-          if(err.message === "auth") { navigate('/login'); }
+          errorAlert('Error: EditShift',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+          navigate('/login');
         });
       } else return null
     })
@@ -164,10 +153,6 @@ const EditShift = () => {
         <div className="editShift-input-box">
           <Select
             options={[
-              {
-                value: null,
-                text: 'Seleccione un valor',
-              },
               {
                 value: 'Presencial',
                 text: 'Presencial',
@@ -221,10 +206,6 @@ const EditShift = () => {
             labelTitle='Estado del pago'
             nameProp='payStatus'
             options={[
-              {
-                value: null,
-                text: 'Seleccione un valor',
-              },
               {
                 value: 'Adeuda',
                 text: 'Adeuda',

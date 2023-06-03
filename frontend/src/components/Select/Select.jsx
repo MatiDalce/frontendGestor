@@ -30,11 +30,10 @@ const Select = ({
                 hasLabel && <label style={labelStyles} className="label-select">{ labelTitle }</label>
             }
             <select name={nameProp} className="select-el" value={value} onChange={onChange} style={inputStyles}>
-                {
-                    options.map((opt,idx) => {
-                        return <option key={idx}  value={opt.value}>{opt.text}</option>
-                    })
-                }
+                <option value={'Sin definir'}>Seleccione un valor</option>
+                {options.map((opt, idx) => (
+                    <option key={idx} value={opt.value}>{opt.text}</option>
+                ))}
             </select>
         </div>
     )
