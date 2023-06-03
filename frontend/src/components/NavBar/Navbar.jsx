@@ -16,7 +16,6 @@ const Navbar = () => {
     const handleWatch = () => {
         setWatch(!watch)
     }
-console.log(location);
     return (
         <>
             {/* NAVBAR */}
