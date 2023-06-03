@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '../../assets/helpers/toast'
 import { config } from '../../env/config';
+import { errorAlert } from '../../assets/helpers/customAlert';
 import Button from '../../components/Button/Button';
 import Checkbox from '../../components/Checkbox/Checkbox';
 import Input from '../../components/Input/Input';
@@ -171,6 +172,17 @@ const AddPatient = () => {
   // ===== MANEJADOR DEL POST DE PACIENTE =====
   const handleAddPatient = (e) => {
     e.preventDefault()
+
+    if(
+      patient.name === '' ||
+      patient.lastName === '' ||
+      patient.personalPhoneNumber === '' ||
+      patient.dni === '' ||
+      patient.gender === ''
+    ) {
+      return errorAlert('Campos incompletos',`Revise que no haya errores`);
+    }
+
     let data = {
       name: patient.name,
       lastName: patient.lastName,
@@ -215,14 +227,17 @@ const AddPatient = () => {
     .then(res => {
       if(!res.errors) {
         toast('success', 'Paciente agregado exitosamente')
-        navigate('/listado-pacientes')
+        navigate('/listado-pacientes', {
+          state: '/'
+        })
       } else {
         toast('error', 'No se pudo agregar el paciente. Revise los datos.')
         setError(true)
       }
     })
     .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
+      errorAlert('Error: AddPatient',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+      navigate('/login');
     });
   }
 
@@ -274,6 +289,7 @@ const AddPatient = () => {
               nameProp='dni'
             />
             { (error && !patient.dni) && <p className='addPatient-error'>Este campo es requerido.</p> }
+            { patient.dni.length > 10 && <p className='addPatient-error'>Debe tener un máximo de 10 dígitos</p> }
           </div>
           <div className="addPatient-box">
             <Checkbox
@@ -372,6 +388,7 @@ const AddPatient = () => {
             nameProp='personalPhoneNumber'
           />
           { (error && !patient.personalPhoneNumber) && <p className='addPatient-error'>Este campo es requerido.</p> }
+          { patient.personalPhoneNumber.length > 10 && <p className='addPatient-error'>Debe tener un máximo de 10 dígitos</p> }
         </div>
       </div>
       <div className="input-row">
@@ -455,10 +472,6 @@ const AddPatient = () => {
           <Select
             options={[
               {
-                value: null,
-                text: 'Seleccione un valor',
-              },
-              {
                 value: 'Primaria incompleta',
                 text: 'Primaria incompleta',
               },
@@ -508,10 +521,6 @@ const AddPatient = () => {
         <div className="addPatient-box">
             <Select
               options={[
-                {
-                  value: null,
-                  text: 'Seleccione un valor',
-                },
                 {
                   value: 'Tipo A',
                   text: 'Tipo A',
@@ -609,7 +618,9 @@ const AddPatient = () => {
               patient.lastName === '' ||
               patient.personalPhoneNumber === '' ||
               patient.dni === '' ||
-              patient.gender === ''
+              patient.gender === '' ||
+              patient.dni.length > 10 ||
+              patient.personalPhoneNumber.length > 10
             }
           />
         </div>

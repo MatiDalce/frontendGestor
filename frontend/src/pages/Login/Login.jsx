@@ -6,6 +6,7 @@ import Title from '../../components/Title/Title';
 import ErrorMsg from '../../components/ErrorMsg/ErrorMsg';
 import { config } from '../../env/config';
 import './login.css';
+import { errorAlert } from '../../assets/helpers/customAlert';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -35,7 +36,8 @@ const Login = () => {
       }
     })
     .catch(error => {
-      setError(true)
+      errorAlert('Error: Login',`${(error.message && error.message.length) > 0 ? error.message : error}`); 
+      navigate('/login');
     });
   }
 

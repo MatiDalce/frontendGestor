@@ -7,6 +7,8 @@ import Title from '../../components/Title/Title';
 import Select from '../../components/Select/Select';
 import Table from '../../components/Table/Table';
 import './shiftPatientList.css';
+import { errorAlert } from '../../assets/helpers/customAlert';
+import useGetFetch from '../../hooks/useGetFetch';
 
 const ShiftPatientList = () => {
 
@@ -18,65 +20,47 @@ const ShiftPatientList = () => {
   const [patientCompleteName, setPatientCompleteName] = useState('');
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // ===== GET DEL PACIENTE =====
-    fetch(`${config.webAPI}/patients/${id}`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
-    .then(res => {
-      if(!res.errors) {
-        // SETEO DE ESTADO
-        setPatientCompleteName(`${res.name} ${res.lastName}`)
-        setLoading(false)
-      } else {
-        setLoading(false)
-      }
-    })
-    .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
-    });
-  }, [id, navigate])
+  const { res: resPatient, loading: loadingPatient, error: errorPatient } = useGetFetch(`patients/${id}`);
+  const { res: resShiftList, loading: loadingShiftList, error: errorShiftList } = useGetFetch(`patients/patient-appointments/${id}`);
 
+  // ===== GET DEL PACIENTE =====
+  useEffect(() => {
+    if (errorPatient) {
+      errorAlert('Error: ShiftPatientList',`${(errorPatient.message && errorPatient.message.length) > 0 ? errorPatient.message : errorPatient}`);
+      navigate('/login');
+    }
+    if(resPatient && !resPatient.errors) {
+      // SETEO DE ESTADO
+      setPatientCompleteName(`${resPatient.name} ${resPatient.lastName}`)
+      setLoading(false)
+    } else {
+      setLoading(false)
+    }
+  }, [id, resPatient, errorPatient, loadingPatient, navigate])
+  
+  
   // ===== GET DE LOS TURNOS DEL PACIENTE =====
   useEffect(() => {
-    fetch(`${config.webAPI}/patients/patient-appointments/${id}`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
-    .then(res => {
-      if(res.length > 0) {
-        const modifiedRes = res.map(shift => {
-          return {
-            id: shift.id,
-            patientId: shift.patientId,
-            day: convertISOStringtoDateTime(shift.day, 'date'),
-            hour: convertISOStringtoDateTime(shift.day, 'hour') + ' hs',
-            payStatus: shift.payStatus,
-            amountToPay: '$ ' + shift.amountToPay,
-            note: shift.note
-          }
-        })
-        setShiftPatientList(modifiedRes)
-      }
-    })
-    .finally(() => setLoading(false))
-    .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
-    });
-  }, [id, navigate])
+    if (errorShiftList) {
+      errorAlert('Error: ShiftPatientList',`${(errorShiftList.message && errorShiftList.message.length) > 0 ? errorShiftList.message : errorShiftList}`);
+      navigate('/login');
+    }
+
+    if(resShiftList && resShiftList.length > 0) {
+      const modifiedRes = resShiftList.map(shift => {
+        return {
+          id: shift.id,
+          patientId: shift.patientId,
+          day: convertISOStringtoDateTime(shift.day, 'date'),
+          hour: convertISOStringtoDateTime(shift.day, 'hour') + ' hs',
+          payStatus: shift.payStatus,
+          amountToPay: '$ ' + shift.amountToPay,
+          note: shift.note
+        }
+      })
+      setShiftPatientList(modifiedRes)
+    }
+  }, [id, resShiftList, errorShiftList, loadingShiftList, navigate])
 
   // ===== ORDEN DE TURNOS DESDE RECIENTES O ANTIGUOS =====
   const handleOrder = (e) => {
@@ -110,7 +94,8 @@ const ShiftPatientList = () => {
       })
       .finally(() => setLoading(false))
       .catch(err => {
-        if(err.message === "auth") { navigate('/login'); }
+        errorAlert('Error: ShiftPatientList',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+        navigate('/login');
       });
     } else {
       fetch(`${config.webAPI}/patients/patient-appointments/${id}`, {
@@ -141,7 +126,8 @@ const ShiftPatientList = () => {
       })
       .finally(() => setLoading(false))
       .catch(err => {
-        if(err.message === "auth") { navigate('/login'); }
+        errorAlert('Error: ShiftPatientList',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+        navigate('/login');
       });
     }
   }
@@ -177,7 +163,8 @@ const ShiftPatientList = () => {
       })
       .finally(() => setLoading(false))
       .catch(err => {
-        if(err.message === "auth") { navigate('/login'); }
+        errorAlert('Error: ShiftPatientList',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+        navigate('/login');
       });
     }
 
@@ -189,7 +176,7 @@ const ShiftPatientList = () => {
       <div className="shiftPatientList-input-box">
         <Select
           onChange={handleOrder}
-          isDisabled={loading || shiftPatientList.length === 0}
+          isDisabled={loading || loadingPatient || loadingShiftList || shiftPatientList.length === 0}
           options={[
             {
               text: 'Seleccione',
@@ -223,7 +210,7 @@ const ShiftPatientList = () => {
             type='button'
             onClick={handleRefresh}
             bgColor='var(--green-bg)'
-            isDisabled={loading}
+            isDisabled={loading || loadingPatient || loadingShiftList}
           />
         </div>
       </div>

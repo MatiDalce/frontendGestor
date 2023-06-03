@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from '../../assets/helpers/toast';
 import Button from '../../components/Button/Button';
 import Spinner from '../../components/Spinner/Spinner';
@@ -10,10 +10,12 @@ import './editPatient.css';
 import { config } from '../../env/config';
 import { convertUnixtimeToDate } from '../../assets/helpers/unixtimeToSomething';
 import Swal from 'sweetalert2';
+import { errorAlert } from '../../assets/helpers/customAlert';
 
 const EditPatient = () => {
   const navigate = useNavigate()
-  const { id } = useParams() 
+  const { id } = useParams()
+  const location = useLocation();
 
   const [error, setError] = useState(false);
 
@@ -107,10 +109,11 @@ const EditPatient = () => {
         patientNotExist()
       }
     })
-    .finally(() => setLoading(false))
     .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
-    });
+      errorAlert('Error: EditPatient',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+      navigate('/login');
+    })
+    .finally(() => setLoading(false));
   }, [id, navigate])
 
   // ===== MANEJADORES DE ESTADO =====
@@ -238,6 +241,19 @@ const EditPatient = () => {
   // ===== MANEJADOR DEL PUT =====
   const handleEditPatient = (e) => {
     e.preventDefault()
+    
+    if(
+      patient.name === '' ||
+      patient.lastName === '' ||
+      patient.personalPhoneNumber === '' ||
+      patient.dni === '' ||
+      patient.gender === '' ||
+      patient.dni.length > 10 ||
+      patient.personalPhoneNumber.length > 10
+    ) {
+      return errorAlert('Campos incompletos',`Revise que no haya errores`);
+    }
+
     let body = {
       name: patient.name,
       lastName: patient.lastName,
@@ -296,7 +312,9 @@ const EditPatient = () => {
         })
         .then(res => {
           if(res) {
-            navigate('/listado-pacientes')
+            navigate('/listado-pacientes', {
+              state: '/'
+            })
             toast('success', 'Se ha editado exitosamente')
           } else {
             toast('error', 'No se pudo editar el paciente. Revise los datos.')
@@ -304,7 +322,8 @@ const EditPatient = () => {
           }
         })
         .catch(err => {
-          if(err.message === "auth") { navigate('/login'); }
+          errorAlert('Error: EditPatient',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+          navigate('/login');
         });
       } else return null
     })
@@ -353,6 +372,7 @@ const EditPatient = () => {
               isDisabled={loading}
               value={patient.dni}
               onChange={handleDNI}
+              limitNumber={9999999999}
               type='number'
               colorLabel='var(--black-bg)' 
               hasLabel
@@ -362,6 +382,7 @@ const EditPatient = () => {
               nameProp='dni'
             />
             { (error && !patient.dni) && <p className='addPatient-error'>Este campo es requerido.</p> }
+            { patient.dni.length > 10 && <p className='addPatient-error'>Debe tener un máximo de 10 dígitos</p> }
           </div>
           <div className="input-editPatient-box">
             <Checkbox
@@ -463,6 +484,7 @@ const EditPatient = () => {
             onChange={handlePersonalPhone}
             colorLabel='var(--black-bg)' 
             type='number'
+            limitNumber={9999999999}
             hasLabel
             labelTitle='Teléfono personal'
             isLabelCenter
@@ -470,6 +492,7 @@ const EditPatient = () => {
             nameProp='personalPhoneNumber'
           />
           { (error && !patient.personalPhoneNumber) && <p className='addPatient-error'>Este campo es requerido.</p> }
+          { patient.personalPhoneNumber.length > 10 && <p className='addPatient-error'>Debe tener un máximo de 10 dígitos</p> }
         </div>
       </div>
       <div className="input-editPatient-row">
@@ -580,10 +603,6 @@ const EditPatient = () => {
             isDisabled={loading}
             options={[
               {
-                value: null,
-                text: 'Seleccione un valor',
-              },
-              {
                 value: 'Primaria incompleta',
                 text: 'Primaria incompleta',
               },
@@ -635,10 +654,6 @@ const EditPatient = () => {
           <Select
             isDisabled={loading}
             options={[
-              {
-                value: null,
-                text: 'Seleccione un valor',
-              },
               {
                 value: 'Tipo A',
                 text: 'Tipo A',

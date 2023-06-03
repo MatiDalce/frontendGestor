@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import './patient.css';
 import Button from '../../components/Button/Button';
 import Spinner from '../../components/Spinner/Spinner';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -7,6 +6,9 @@ import { convertUnixtimeToAge, convertUnixtimeToDate } from '../../assets/helper
 import { config } from '../../env/config';
 import { toast } from '../../assets/helpers/toast';
 import Swal from 'sweetalert2';
+import { errorAlert } from '../../assets/helpers/customAlert';
+import useGetFetch from '../../hooks/useGetFetch';
+import './patient.css';
 
 const Patient = () => {
   let {id} = useParams();
@@ -14,7 +16,7 @@ const Patient = () => {
   // ===== ESTADO =====
   const [patient, setPatient] = useState([]);
   
-  const [loading, setLoading] = useState(true);
+  const { res, loading, error } = useGetFetch(`patients/${id}`);
 
   useEffect(() => {
     const patientNotExist = () => {
@@ -27,40 +29,22 @@ const Patient = () => {
           navigate('/listado-pacientes')
       })
     }
-    // ===== GET DEL PACIENTE =====
-    fetch(`${config.webAPI}/patients/${id}`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
-    .then(res => {
-      if(res){
-        if(res.message && res.message === "No patient record found for the given ID") {
-          patientNotExist()
-        } else {
-          setPatient({
-            ...res,
-            birthday: convertUnixtimeToDate(res.birthday),
-            age: convertUnixtimeToAge(new Date(res.birthday * 1000))
-          })
-        }
-      } else {
-        toast('error', 'Algo salió mal, por favor recargue la página.')
+    if (error) {
+      errorAlert('Error: Patient',`${(error.message && error.message.length) > 0 ? error.message : error}`);
+      navigate('/login');
+    }
+    if(res){
+      if(res.message && res.message === "No patient record found for the given ID") {
         patientNotExist()
+      } else {
+        setPatient({
+          ...res,
+          birthday: convertUnixtimeToDate(res.birthday),
+          age: convertUnixtimeToAge(new Date(res.birthday * 1000))
+        })
       }
-    })
-    .catch(err => {
-      console.log('FETCH ERROR ',err);
-      if(err.message === "auth") { navigate('/login'); }
-    })
-    .finally(() => setLoading(false));
-
-  }, [id, navigate])
+    }
+  }, [res, error, loading, navigate]);
 
   // ===== DELETE DEL PACIENTE =====
   const handleDelete = () => {
@@ -99,7 +83,8 @@ const Patient = () => {
             }
           })
           .catch(err => {
-            if(err.message === "auth") { navigate('/login'); }
+            errorAlert('Error: Patient',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+            navigate('/login');
           });
       }
     })

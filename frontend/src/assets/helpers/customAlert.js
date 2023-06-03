@@ -4,6 +4,7 @@ export function errorAlert(
     title = '',
     msg = '',
 ) {
+    console.log(`${title}: ${msg}`);
     return Swal.fire({
         icon: 'error',
         title: title,

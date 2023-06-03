@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from '../../assets/helpers/toast';
 import { config } from '../../env/config';
 import Button from '../../components/Button/Button';
@@ -9,9 +9,12 @@ import './editShift.css';
 import { convertISOStringtoDateTime, joinDateTimeToISOString } from '../../assets/helpers/unixtimeToSomething';
 import Swal from 'sweetalert2';
 import Select from '../../components/Select/Select';
+import { errorAlert } from '../../assets/helpers/customAlert';
+import useGetFetch from '../../hooks/useGetFetch';
 
 const EditShift = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useParams();
   const [ patientID, setPatientID] = useState()
   const [ date, setDate ] = useState()
@@ -22,6 +25,8 @@ const EditShift = () => {
   const [ notes, setNotes ] = useState()
   const [ loading, setLoading ] = useState(true)
   const [ error, setError ] = useState()
+
+  const { res, loadingData, errorData } = useGetFetch(`appointments/${id}`);
 
   useEffect(() => {
     const shiftNotExist = () => {
@@ -34,43 +39,27 @@ const EditShift = () => {
         navigate('/listado-turnos')
       })
     }
-    // ===== GET DEL TURNO =====
-    setLoading(true)
-    fetch(`${config.webAPI}/appointments/${id}`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
-    .then(res => {
-      if(res) {
-        if(res.message && res.message === "No appointment found for the given ID") {
-          shiftNotExist()
-        } else {
-          let date = convertISOStringtoDateTime(res.day, 'date', true)
-          let hour = convertISOStringtoDateTime(res.day, 'hour')
-          setDate(date);
-          setHour(hour);
-          setStatus(res.payStatus);
-          setSessionStatus(res.sessionStatus);
-          setAmount(res.amountToPay);
-          setNotes(res.note);
-          setPatientID(res.patient.id)
-          setLoading(false)
-        }
-      } else {
-        toast('error', 'Algo salió mal, por favor recargue la página.')
+    if (errorData) {
+      errorAlert('Error: EditShift',`${(errorData.message && errorData.message.length) > 0 ? errorData.message : errorData}`);
+      navigate('/login');
+    }
+    if(res) {
+      if(res.message && res.message === "No appointment found for the given ID") {
         shiftNotExist()
+      } else {
+        let date = convertISOStringtoDateTime(res.day, 'date', true)
+        let hour = convertISOStringtoDateTime(res.day, 'hour')
+        setDate(date);
+        setHour(hour);
+        setStatus(res.payStatus);
+        setSessionStatus(res.sessionStatus);
+        setAmount(res.amountToPay);
+        setNotes(res.note);
+        setPatientID(res.patient.id)
+        setLoading(false)
       }
-    })
-    .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
-    });
-  }, [id, navigate])
+    }
+  }, [res, errorData, loadingData, navigate]);
 
   // ===== MANEJADORES DE ESTADO =====
   const handleDate = (e) => {
@@ -145,29 +134,28 @@ const EditShift = () => {
         })
         .then(res => {
           if(res) {
-            navigate('/listado-turnos')
+            navigate('/listado-turnos', {
+              state: '/'
+            })
             toast('success', 'Se ha editado exitosamente')
           }
         })
         .catch(err => {
-          if(err.message === "auth") { navigate('/login'); }
+          errorAlert('Error: EditShift',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+          navigate('/login');
         });
       } else return null
     })
   };
 
   // ===== HTML =====
-  if(loading) return <div style={{display: 'flex', justifyContent: 'center', alignItems:'center', width: '100%'}}><Spinner /></div>
+  if(loading || loadingData) return <div style={{display: 'flex', justifyContent: 'center', alignItems:'center', width: '100%'}}><Spinner /></div>
   return (
     <>
       <div className="input-rowEdit-shift">
         <div className="editShift-input-box">
           <Select
             options={[
-              {
-                value: null,
-                text: 'Seleccione un valor',
-              },
               {
                 value: 'Presencial',
                 text: 'Presencial',
@@ -199,7 +187,7 @@ const EditShift = () => {
       <div className="input-rowEdit-shift">
         <div className="editShift-input-box">
           <Input
-            isDisabled={loading}
+            isDisabled={loading || loadingData}
             onChange={handleDate}
             value={date}
             colorLabel='var(--black-bg)' 
@@ -222,10 +210,6 @@ const EditShift = () => {
             nameProp='payStatus'
             options={[
               {
-                value: null,
-                text: 'Seleccione un valor',
-              },
-              {
                 value: 'Adeuda',
                 text: 'Adeuda',
               },
@@ -245,7 +229,7 @@ const EditShift = () => {
       <div className="input-rowEdit-shift">
         <div className="editShift-input-box">
             <Input
-              isDisabled={loading}
+              isDisabled={loading || loadingData}
               onChange={handleTime}
               value={hour} // hh:mm:ss.ms
               colorLabel='var(--black-bg)' 
@@ -260,7 +244,7 @@ const EditShift = () => {
           </div>
           <div className="editShift-input-box">
             <Input
-              isDisabled={loading}
+              isDisabled={loading || loadingData}
               onChange={handleAmount}
               value={amount}
               colorLabel='var(--black-bg)' 
@@ -276,7 +260,7 @@ const EditShift = () => {
       <div className="textarea-input-shift">
         <div className="editShift-textarea-box">
           <Input
-            isDisabled={loading}
+            isDisabled={loading || loadingData}
             onChange={handleNotes}
             value={notes}
             colorLabel='var(--black-bg)' 
@@ -295,7 +279,7 @@ const EditShift = () => {
             title={'Editar'} 
             type='button'
             onClick={handleChangeShift}
-            isDisabled={loading}
+            isDisabled={loading || loadingData}
           />
         </div>
       </div>

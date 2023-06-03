@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { convertISOStringtoDateTime } from '../../assets/helpers/unixtimeToSomething';
+import { useNavigate } from 'react-router-dom';
+import { config } from '../../env/config';
+import { errorAlert } from '../../assets/helpers/customAlert';
 import Button from '../../components/Button/Button'
 import Spinner from '../../components/Spinner/Spinner'
 import Input from '../../components/Input/Input'
 import Table from '../../components/Table/Table'
-import { config } from '../../env/config';
-import { useNavigate } from 'react-router-dom';
+import useGetFetch from '../../hooks/useGetFetch';
 import './shiftList.css'
 
 const ShiftList = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
     // ===== ESTADO =====
   const [shiftList, setShiftList] = useState([]);
   const [filterShift, setFilterShift] = useState({
@@ -19,39 +21,29 @@ const ShiftList = () => {
   });
   const [loading, setLoading] = useState(true);
 
+  const { res, loading: loadingData, error: errorData } = useGetFetch('appointments');
+
   useEffect(() => {
-    // ===== GET DE TURNOS =====
-    fetch(`${config.webAPI}/appointments`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
-    .then(res => {
-      if(res.length > 0) {
-        const modifiedRes = res.map(shift => {
-          return {
-            id: shift.id,
-            completeName: `${shift.patient.name} ${shift.patient.lastName}`,
-            day: convertISOStringtoDateTime(shift.day, 'date'),
-            hour: convertISOStringtoDateTime(shift.day, 'hour')+' hs',
-            payStatus: shift.payStatus,
-            sessionStatus: shift.sessionStatus,
-            amountToPay: '$ ' + shift.amountToPay
-          }
-        })
-        setShiftList(modifiedRes);
-      }
-    })
-    .finally(() => setLoading(false))
-    .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
-    });
-  }, [navigate])
+    if (errorData) {
+      errorAlert('Error: PatientList',`${(errorData.message && errorData.message.length) > 0 ? errorData.message : errorData}`);
+      navigate('/login');
+    }
+    if(res && res.length > 0) {
+      const modifiedRes = res.map(shift => {
+        return {
+          id: shift.id,
+          completeName: `${shift.patient.name} ${shift.patient.lastName}`,
+          day: convertISOStringtoDateTime(shift.day, 'date'),
+          hour: convertISOStringtoDateTime(shift.day, 'hour')+' hs',
+          payStatus: shift.payStatus,
+          sessionStatus: shift.sessionStatus,
+          amountToPay: '$ ' + shift.amountToPay
+        }
+      })
+      setShiftList(modifiedRes);
+      setLoading(false)
+    }
+  }, [res, errorData, loadingData, navigate])
 
   // ===== MANEJADORES DE ESTADO =====
   const handleName = (e) => {
@@ -88,11 +80,11 @@ const ShiftList = () => {
         })
         setShiftList(modifiedRes);
         setLoading(false)
-      } else {
       }
     })
     .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
+      errorAlert('Error: ShiftList',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+      navigate('/login');
     });
   }
 
@@ -125,12 +117,13 @@ const ShiftList = () => {
       setLoading(false)
     })
     .catch(err => {
-      if(err.message === "auth") { navigate('/login'); }
+      errorAlert('Error: ShiftList',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
+      navigate('/login');
     });
   }
 
   // ===== HTML =====
-  if(loading) return <div style={{display: 'flex', justifyContent: 'center', alignItems:'center', width: '100%'}}><Spinner /></div>
+  if(loading || loadingData) return <div style={{display: 'flex', justifyContent: 'center', alignItems:'center', width: '100%'}}><Spinner /></div>
   return (
     <>
     <div className="search-shift">
@@ -143,7 +136,7 @@ const ShiftList = () => {
             type='text'
             nameProp='search'
             placeholder={'Buscar por nombre'}
-            isDisabled={loading}
+            isDisabled={loading || loadingData}
           />
         </div>
         <div className="shiftList-btn-box-search">
@@ -151,7 +144,7 @@ const ShiftList = () => {
             title={'Filtrar Turnos'} 
             type='button'
             onClick={handleShiftSearch}
-            isDisabled={loading}
+            isDisabled={loading || loadingData}
           />
         </div>
       </div>
@@ -176,7 +169,7 @@ const ShiftList = () => {
               type='button'
               onClick={handleRefresh}
               bgColor='var(--green-bg)'
-              isDisabled={loading}
+              isDisabled={loading || loadingData}
             />
           </div>
         </div>
