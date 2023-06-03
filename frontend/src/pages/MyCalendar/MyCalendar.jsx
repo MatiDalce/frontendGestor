@@ -5,13 +5,12 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import esLocale from '@fullcalendar/core/locales/es'; 
 import { useNavigate } from 'react-router-dom';
+import useGetFetch from '../../hooks/useGetFetch';
+import { errorAlert } from '../../assets/helpers/customAlert';
 import { addOneHourISOString } from '../../assets/helpers/unixtimeToSomething';
-import { config } from '../../env/config';
 import Modal from '../../components/Modal/Modal';
 import Spinner from '../../components/Spinner/Spinner';
 import './myCalendar.css';
-import useGetFetch from '../../hooks/useGetFetch';
-import { errorAlert } from '../../assets/helpers/customAlert';
 
 const MyCalendar = () => {
   const navigate = useNavigate()

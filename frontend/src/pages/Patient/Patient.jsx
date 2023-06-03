@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import './patient.css';
 import Button from '../../components/Button/Button';
 import Spinner from '../../components/Spinner/Spinner';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,6 +8,7 @@ import { toast } from '../../assets/helpers/toast';
 import Swal from 'sweetalert2';
 import { errorAlert } from '../../assets/helpers/customAlert';
 import useGetFetch from '../../hooks/useGetFetch';
+import './patient.css';
 
 const Patient = () => {
   let {id} = useParams();

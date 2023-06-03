@@ -146,7 +146,7 @@ const EditShift = () => {
   };
 
   // ===== HTML =====
-  if(loading) return <div style={{display: 'flex', justifyContent: 'center', alignItems:'center', width: '100%'}}><Spinner /></div>
+  if(loading || loadingData) return <div style={{display: 'flex', justifyContent: 'center', alignItems:'center', width: '100%'}}><Spinner /></div>
   return (
     <>
       <div className="input-rowEdit-shift">
@@ -184,7 +184,7 @@ const EditShift = () => {
       <div className="input-rowEdit-shift">
         <div className="editShift-input-box">
           <Input
-            isDisabled={loading}
+            isDisabled={loading || loadingData}
             onChange={handleDate}
             value={date}
             colorLabel='var(--black-bg)' 
@@ -226,7 +226,7 @@ const EditShift = () => {
       <div className="input-rowEdit-shift">
         <div className="editShift-input-box">
             <Input
-              isDisabled={loading}
+              isDisabled={loading || loadingData}
               onChange={handleTime}
               value={hour} // hh:mm:ss.ms
               colorLabel='var(--black-bg)' 
@@ -241,7 +241,7 @@ const EditShift = () => {
           </div>
           <div className="editShift-input-box">
             <Input
-              isDisabled={loading}
+              isDisabled={loading || loadingData}
               onChange={handleAmount}
               value={amount}
               colorLabel='var(--black-bg)' 
@@ -257,7 +257,7 @@ const EditShift = () => {
       <div className="textarea-input-shift">
         <div className="editShift-textarea-box">
           <Input
-            isDisabled={loading}
+            isDisabled={loading || loadingData}
             onChange={handleNotes}
             value={notes}
             colorLabel='var(--black-bg)' 
@@ -276,7 +276,7 @@ const EditShift = () => {
             title={'Editar'} 
             type='button'
             onClick={handleChangeShift}
-            isDisabled={loading}
+            isDisabled={loading || loadingData}
           />
         </div>
       </div>
