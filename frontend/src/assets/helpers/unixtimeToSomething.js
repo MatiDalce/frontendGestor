@@ -6,10 +6,10 @@ export function joinDateTimeToISOString(date, hour) {
 
 // EDAD: Convertir formato unixtime a número
 export function convertUnixtimeToAge(date) {
-    const hoy = new Date();
-    let age = hoy.getFullYear() - date.getFullYear();
-    const mes = hoy.getMonth() - date.getMonth();
-    if (mes < 0 || (mes === 0 && hoy.getDate() < date.getDate())) {
+    const now = new Date();
+    let age = now.getFullYear() - date.getFullYear();
+    const month = now.getMonth() - date.getMonth();
+    if (month < 0 || (month === 0 && now.getDate() < date.getDate())) {
         age--;
     }
     return age;
