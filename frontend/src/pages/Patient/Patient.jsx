@@ -18,6 +18,14 @@ const Patient = () => {
   
   const { res, loading, error } = useGetFetch(`patients/${id}`);
 
+  const isPositive = (number) => {
+    if(Math.sign(number) === -1 || Math.sign(number) === -0) {
+      return 0;
+    } else {
+      return number;
+    }
+  }
+
   useEffect(() => {
     const patientNotExist = () => {
       Swal.fire({
@@ -37,10 +45,11 @@ const Patient = () => {
       if(res.message && res.message === "No patient record found for the given ID") {
         patientNotExist()
       } else {
+        let ageNumber = convertUnixtimeToAge(new Date(res.birthday * 1000));
         setPatient({
           ...res,
           birthday: convertUnixtimeToDate(res.birthday),
-          age: convertUnixtimeToAge(new Date(res.birthday * 1000))
+          age: isPositive(ageNumber)
         })
       }
     }
@@ -143,7 +152,7 @@ const Patient = () => {
       <div className="input-patient-row">
         <div className="input-box">
           <p className="data-title">Edad</p>
-          <p className="data">{isNaN(patient.age) ? "-" : `${(patient.age)} años`}</p>
+          <p className="data">{(isNaN(patient.age) || patient.age === 0) ? "-" : `${(patient.age)} años`}</p>
         </div>
         <div className="input-box">
           <p className="data-title">Estado civil</p>
