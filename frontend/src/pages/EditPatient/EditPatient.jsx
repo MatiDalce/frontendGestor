@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from '../../assets/helpers/toast';
 import Button from '../../components/Button/Button';
 import Spinner from '../../components/Spinner/Spinner';
@@ -14,7 +14,8 @@ import { errorAlert } from '../../assets/helpers/customAlert';
 
 const EditPatient = () => {
   const navigate = useNavigate()
-  const { id } = useParams() 
+  const { id } = useParams()
+  const location = useLocation();
 
   const [error, setError] = useState(false);
 
@@ -310,9 +311,10 @@ const EditPatient = () => {
           } else return res.json();
         })
         .then(res => {
-          console.log('res',res);
           if(res) {
-            navigate('/listado-pacientes')
+            navigate('/listado-pacientes', {
+              state: '/'
+            })
             toast('success', 'Se ha editado exitosamente')
           } else {
             toast('error', 'No se pudo editar el paciente. Revise los datos.')
@@ -320,7 +322,6 @@ const EditPatient = () => {
           }
         })
         .catch(err => {
-          console.log('err',err);
           errorAlert('Error: EditPatient',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
           navigate('/login');
         });

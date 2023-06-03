@@ -10,14 +10,13 @@ const Navbar = () => {
     let navigate = useNavigate();
     let location = useLocation();
     let { id } = useParams();
-    
     const [watch, setWatch] = useState(false);
 
     // Ocultar toda la pantalla
     const handleWatch = () => {
         setWatch(!watch)
     }
-
+console.log(location);
     return (
         <>
             {/* NAVBAR */}
@@ -31,7 +30,7 @@ const Navbar = () => {
             {
                 (location.pathname !== '/login' && location.pathname !== '/') &&
                 <nav className='navbar' role="navigation">
-                    <button className="navbar-arrow-container" onClick={() => navigate(-1)}>
+                    <button className="navbar-arrow-container" onClick={() => location.state ? navigate(location.state) : navigate(-1)}>
                         <img src={ ArrowLogo } alt="Ir hacia atrás" className="navbar-arrow" />
                     </button>
                     <div className="navbar-title-container">

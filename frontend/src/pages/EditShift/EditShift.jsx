@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from '../../assets/helpers/toast';
 import { config } from '../../env/config';
 import Button from '../../components/Button/Button';
@@ -14,6 +14,7 @@ import useGetFetch from '../../hooks/useGetFetch';
 
 const EditShift = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useParams();
   const [ patientID, setPatientID] = useState()
   const [ date, setDate ] = useState()
@@ -133,7 +134,9 @@ const EditShift = () => {
         })
         .then(res => {
           if(res) {
-            navigate('/listado-turnos')
+            navigate('/listado-turnos', {
+              state: '/'
+            })
             toast('success', 'Se ha editado exitosamente')
           }
         })
