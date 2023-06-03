@@ -37,13 +37,16 @@ const AddShift = () => {
       setPatientList(patientsListNames)
     }
     if(state) {
+			console.log("AddShift INICIAL state", state);
       setSelectedPatient({value: state.value, text: state.text})
     }
   }, [patientRes, patientError, patientLoading, navigate, state]);
 
   // ===== MANEJADORES DE ESTADOS =====
-  const handleSelectPatient = (patient) => {
-    setSelectedPatient({value: patient.value, text: patient.text})
+  const handleSelectPatient = (ev) => {
+		const patientValue= ev.target.value;
+		console.log("AddShift handleSelectPatient", patientValue, ev)
+		setSelectedPatient({value: patientValue, text: 'TODO:'})
   }
   const handleSessionStatus = (e) => {
     setSessionStatus(e.target.value)
@@ -74,6 +77,9 @@ const AddShift = () => {
         patient: Number(selectedPatient.value),
         note: note
       };
+
+			console.log("AddShift patient", selectedPatient);
+			console.log("AddShift", data);
   
       fetch(`${config.webAPI}/appointments`, {
         method: 'POST',
