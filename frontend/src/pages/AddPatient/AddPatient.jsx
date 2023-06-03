@@ -172,6 +172,17 @@ const AddPatient = () => {
   // ===== MANEJADOR DEL POST DE PACIENTE =====
   const handleAddPatient = (e) => {
     e.preventDefault()
+
+    if(
+      patient.name === '' ||
+      patient.lastName === '' ||
+      patient.personalPhoneNumber === '' ||
+      patient.dni === '' ||
+      patient.gender === ''
+    ) {
+      return errorAlert('Campos incompletos',`Revise que no haya errores`);
+    }
+
     let data = {
       name: patient.name,
       lastName: patient.lastName,
@@ -276,6 +287,7 @@ const AddPatient = () => {
               nameProp='dni'
             />
             { (error && !patient.dni) && <p className='addPatient-error'>Este campo es requerido.</p> }
+            { patient.dni.length > 10 && <p className='addPatient-error'>Debe tener un máximo de 10 dígitos</p> }
           </div>
           <div className="addPatient-box">
             <Checkbox
@@ -374,6 +386,7 @@ const AddPatient = () => {
             nameProp='personalPhoneNumber'
           />
           { (error && !patient.personalPhoneNumber) && <p className='addPatient-error'>Este campo es requerido.</p> }
+          { patient.personalPhoneNumber.length > 10 && <p className='addPatient-error'>Debe tener un máximo de 10 dígitos</p> }
         </div>
       </div>
       <div className="input-row">
@@ -603,7 +616,9 @@ const AddPatient = () => {
               patient.lastName === '' ||
               patient.personalPhoneNumber === '' ||
               patient.dni === '' ||
-              patient.gender === ''
+              patient.gender === '' ||
+              patient.dni.length > 10 ||
+              patient.personalPhoneNumber.length > 10
             }
           />
         </div>

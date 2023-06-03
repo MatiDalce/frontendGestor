@@ -240,6 +240,19 @@ const EditPatient = () => {
   // ===== MANEJADOR DEL PUT =====
   const handleEditPatient = (e) => {
     e.preventDefault()
+    
+    if(
+      patient.name === '' ||
+      patient.lastName === '' ||
+      patient.personalPhoneNumber === '' ||
+      patient.dni === '' ||
+      patient.gender === '' ||
+      patient.dni.length > 10 ||
+      patient.personalPhoneNumber.length > 10
+    ) {
+      return errorAlert('Campos incompletos',`Revise que no haya errores`);
+    }
+
     let body = {
       name: patient.name,
       lastName: patient.lastName,
@@ -297,6 +310,7 @@ const EditPatient = () => {
           } else return res.json();
         })
         .then(res => {
+          console.log('res',res);
           if(res) {
             navigate('/listado-pacientes')
             toast('success', 'Se ha editado exitosamente')
@@ -306,6 +320,7 @@ const EditPatient = () => {
           }
         })
         .catch(err => {
+          console.log('err',err);
           errorAlert('Error: EditPatient',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
           navigate('/login');
         });
@@ -356,6 +371,7 @@ const EditPatient = () => {
               isDisabled={loading}
               value={patient.dni}
               onChange={handleDNI}
+              limitNumber={9999999999}
               type='number'
               colorLabel='var(--black-bg)' 
               hasLabel
@@ -365,6 +381,7 @@ const EditPatient = () => {
               nameProp='dni'
             />
             { (error && !patient.dni) && <p className='addPatient-error'>Este campo es requerido.</p> }
+            { patient.dni.length > 10 && <p className='addPatient-error'>Debe tener un máximo de 10 dígitos</p> }
           </div>
           <div className="input-editPatient-box">
             <Checkbox
@@ -466,6 +483,7 @@ const EditPatient = () => {
             onChange={handlePersonalPhone}
             colorLabel='var(--black-bg)' 
             type='number'
+            limitNumber={9999999999}
             hasLabel
             labelTitle='Teléfono personal'
             isLabelCenter
@@ -473,6 +491,7 @@ const EditPatient = () => {
             nameProp='personalPhoneNumber'
           />
           { (error && !patient.personalPhoneNumber) && <p className='addPatient-error'>Este campo es requerido.</p> }
+          { patient.personalPhoneNumber.length > 10 && <p className='addPatient-error'>Debe tener un máximo de 10 dígitos</p> }
         </div>
       </div>
       <div className="input-editPatient-row">
