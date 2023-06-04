@@ -4,13 +4,10 @@ import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import Title from '../../components/Title/Title';
 import ErrorMsg from '../../components/ErrorMsg/ErrorMsg';
-import { config } from '../../env/config';
 import './login.css';
 import { errorAlert } from '../../assets/helpers/customAlert';
 
-//VER: https://www.freecodecamp.org/news/use-firebase-authentication-in-a-react-app/
-import {  signInWithEmailAndPassword   } from 'firebase/auth';
-import { auth } from '../../firebase.js';
+import { backendSignin } from '../../services/backend.js';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -28,44 +25,17 @@ const Login = () => {
     setEmail(e.target.value);
   }
 
-  const handleLoginNode = () => {
+  const handleLogin = () => {
     setError(false)
-    fetch(`${config.webAPI}/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({password: pass})
-    })
-    .then(res => res.json())
+		backendSignin(email, pass)
     .then(data => {
-      if(data) {
-        localStorage.setItem('token', JSON.stringify(data.token));
-        navigate('/')
-      } else {
-        setError(true)
-      }
+      navigate('/')
     })
     .catch(error => {
       errorAlert('Error: Login',`${(error.message && error.message.length) > 0 ? error.message : error}`); 
       navigate('/login');
     });
   }
-
-	const handleLoginFirebase = (e) => {
-		e.preventDefault();
-		signInWithEmailAndPassword(auth, email, pass)
-			.then((userCredential) => {
-				const user = userCredential.user;
-				console.log("LOGIN FIREBASE OK",user);
-				navigate("/")
-			})
-			.catch((error) => {
-				const errorCode = error.code;
-				const errorMessage = error.message;
-				console.log("LOGIN FIREBASE ERROR", errorCode, errorMessage)
-			});
-	}
-
-	const handleLogin= handleLoginFirebase;
 
   // ===== HTML =====
   return (

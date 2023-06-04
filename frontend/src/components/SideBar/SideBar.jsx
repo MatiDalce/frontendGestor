@@ -5,6 +5,9 @@ import Swal from 'sweetalert2';
 import { toast } from '../../assets/helpers/toast';
 import { config } from '../../env/config';
 import "./sideBar.css";
+
+import { backendSignout, backendDownloadAppointments } from '../../services/backend.js';
+
 export const SideBar = (props) => {
     let navigate = useNavigate();
     
@@ -17,21 +20,7 @@ export const SideBar = (props) => {
 
     // Ocultar toda la pantalla
     const handleDownloadAppointments = () => {
-        fetch(`${config.webAPI}/appointments/download`, {
-            headers: {
-                'Authorization': `${localStorage.getItem('token')}`
-            }
-        })
-        .then(response => {
-            if(response.status === 401 || response.status === 403) {
-                throw new Error('auth'); // No está autorizado
-            }
-            if (!response.ok) {
-                toast('error', 'Ha ocurrido un error en la descarga')
-                throw new Error('Falló la descarga');
-            }
-            return response.blob();
-        })
+				backendDownloadAppointments()
         .then(blob => {
             if(blob) {
                 const file = new File([blob], 'archivo.zip', { type: 'application/zip' })
@@ -64,13 +53,14 @@ export const SideBar = (props) => {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                localStorage.removeItem('token')
+								backendSignout();
                 navigate('/login') 
             } else {
                 return;
             }
         })
     }
+
     return (
         <>
             <div id="page-wrap"></div>
