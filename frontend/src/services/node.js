@@ -45,3 +45,18 @@ export const backendDownloadAppointments = () => {
 		})
 }
 
+export const backendPatientAdd = (data) => {
+	return fetch(`${config.webAPI}/patients`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${localStorage.getItem('token')}`
+		},
+		body: JSON.stringify(data)
+	})
+		.then(res => {
+			if(res.status === 401 || res.status === 403) {
+				throw new Error('auth'); // No está autorizado
+			} else { return res.json() }
+		})
+}

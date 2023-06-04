@@ -11,7 +11,7 @@ import Select from '../../components/Select/Select';
 import Title from '../../components/Title/Title';
 import './addPatient.css';
 
-import { firebaseSet } from '../../firebase.js';
+import { backendPatientAdd } from '../../services/backend';
 
 const AddPatient = () => {
   const navigate = useNavigate()
@@ -185,7 +185,7 @@ const AddPatient = () => {
       return errorAlert('Campos incompletos',`Revise que no haya errores`);
     }
 
-    let data = {
+		let data = { //TODO:DATOS_SENSIBLES recomiendo MUY ENFATICAMENTE separar, encriptar, y extremar la proteccion de estos datos sensibles!!!
       name: patient.name,
       lastName: patient.lastName,
       dni: patient.dni, // Number
@@ -213,20 +213,7 @@ const AddPatient = () => {
       chronicDisease: patient.chronicDisease,
     }
 
-		if (false) { //TODO:FIREBASE, eliminar/encapsular backend node
-			fetch(`${config.webAPI}/patients`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': `${localStorage.getItem('token')}`
-				},
-				body: JSON.stringify(data)
-			})
-			.then(res => {
-				if(res.status === 401 || res.status === 403) {
-					throw new Error('auth'); // No está autorizado
-				} else { return res.json() }
-			})
+		backendPatientAdd(data)
 			.then(res => {
 				if(!res.errors) {
 					toast('success', 'Paciente agregado exitosamente')
@@ -240,23 +227,9 @@ const AddPatient = () => {
 			})
 			.catch(err => {
 				errorAlert('Error: AddPatient',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
-				navigate('/login');
+				navigate('/login'); //TODO:solo si es error auth!
 			});
 		}
-		else { //TODO:FIREBASE 
-			try {
-				firebaseSet('patients','AUTO',data);
-				toast('success', 'Paciente agregado exitosamente')
-				navigate('/listado-pacientes', {
-					state: '/'
-				})
-			} catch(ex) {
-				//TODO: si es por auth?
-				toast('error', 'No se pudo agregar el paciente. Revise los datos.')
-				setError(true)
-			}
-		}
-  }
 
   // ===== HTML =====
   return (

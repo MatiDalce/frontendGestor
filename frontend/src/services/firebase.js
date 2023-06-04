@@ -27,3 +27,9 @@ export const backendSignout = () => {
 export const backendDownloadAppointments = () => {
 	return new Promise( (ok, err) => err('TODO: implementar') );
 }
+
+export const backendPatientAdd = async (data) => {
+	firebaseSet('patients','AUTO',data);
+	return {}
+}
+
