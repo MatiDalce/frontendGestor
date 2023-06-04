@@ -9,6 +9,7 @@ import './home.css';
 const Home = () => {
   const navigate = useNavigate()
 
+	/* TODO:FIREBASE
   fetch(`${config.webAPI}/patients`, {
     headers: {
       'Content-Type': 'application/json',
@@ -24,6 +25,7 @@ const Home = () => {
     errorAlert('Error: Home',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
     navigate('/login');
   });
+	*/
 
   // ===== HTML =====
   return (

@@ -8,13 +8,30 @@ import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
 import './patientList.css'
 
+import { firebaseGet } from '../../firebase.js';
+
 const PatientList = () => {
   const navigate = useNavigate();
   // ===== ESTADOS =====
   const [patients, setPatients] = useState([]);
   const [search, setSearch] = useState('');
 
-  const { res, loading, error } = useGetFetch('patients/limit');
+	//TODO:FIREBASE const { res, loading, error } = useGetFetch('patients/limit');
+	const [ [res, setRes], [loading, setLoading] , [error, setError] ] = [ null , true, null ].map(useState);
+
+	useEffect(() => {
+		async function fetchData() {
+			//TODO: log!
+			try {
+				const col= await firebaseGet('patients')
+				setRes( col.map( e => ({id: e.id, ...e.data}) ) )
+			} catch (ex) {
+				setError(ex);
+			}
+			setLoading(false);
+		}
+		fetchData();
+	}, [])
 
   useEffect(() => {
     if (error) {
@@ -22,14 +39,13 @@ const PatientList = () => {
       navigate('/login');
     }
     if (res && res.length > 0) {
-      setPatients(res);
+			setPatients(res.map( v => ({ ...v, completeName: v.name+' '+v.lastName})));
     }
   }, [res, error, loading, navigate]);
   
 
   // Filtro de pacientes
   const handleFilterPatients = (e) => {
-    
     fetch(`${config.webAPI}/patients/search?q=${search}`, {
       headers: {
         'Authorization': `${localStorage.getItem('token')}`

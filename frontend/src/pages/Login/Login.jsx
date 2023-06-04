@@ -8,9 +8,14 @@ import { config } from '../../env/config';
 import './login.css';
 import { errorAlert } from '../../assets/helpers/customAlert';
 
+//VER: https://www.freecodecamp.org/news/use-firebase-authentication-in-a-react-app/
+import {  signInWithEmailAndPassword   } from 'firebase/auth';
+import { auth } from '../../firebase.js';
+
 const Login = () => {
   const navigate = useNavigate();
   // ===== ESTADO =====
+  const [email, setEmail] = useState()
   const [pass, setPass] = useState()
   const [error, setError] = useState(false)
 
@@ -19,7 +24,11 @@ const Login = () => {
     setPass(e.target.value);
   }
 
-  const handleLogin = () => {
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  }
+
+  const handleLoginNode = () => {
     setError(false)
     fetch(`${config.webAPI}/login`, {
       method: 'POST',
@@ -41,6 +50,23 @@ const Login = () => {
     });
   }
 
+	const handleLoginFirebase = (e) => {
+		e.preventDefault();
+		signInWithEmailAndPassword(auth, email, pass)
+			.then((userCredential) => {
+				const user = userCredential.user;
+				console.log("LOGIN FIREBASE OK",user);
+				navigate("/")
+			})
+			.catch((error) => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+				console.log("LOGIN FIREBASE ERROR", errorCode, errorMessage)
+			});
+	}
+
+	const handleLogin= handleLoginFirebase;
+
   // ===== HTML =====
   return (
     <div className='login-bg'>
@@ -50,6 +76,16 @@ const Login = () => {
             title='Gestor de Turnos'
           />
           <div className="login-input-box">
+            <Input
+              onChange={handleEmail}
+              value={email}
+              type='email'
+              nameProp='email'
+              placeholder={'Ingrese su mail'}
+              margin='5% 0'
+            />
+         </div>
+         <div className="login-input-box">
             <Input
               onChange={handlePassword}
               value={pass}
