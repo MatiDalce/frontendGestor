@@ -9,7 +9,7 @@ import Input from '../../components/Input/Input';
 import SearchableDropdown from '../../components/SearchableDropdown/SearchableDropdown';
 import Select from '../../components/Select/Select';
 import './addShift.css';
-import useGetFetch from '../../hooks/useGetFetch';
+import { backendAppointmentAdd, useGetFetch } from '../../services/backend'
 
 const AddShift = () => {
   const navigate = useNavigate()
@@ -17,7 +17,7 @@ const AddShift = () => {
 
   // ===== ESTADOS =====
   const [patientList, setPatientList] = useState([]);
-  const [selectedPatient, setSelectedPatient] = useState({text:'', value: -1});
+  const [selectedPatient, setSelectedPatient] = useState({text:'', value: ''});
   const [sessionStatus, setSessionStatus] = useState('');
   const [date, setDate] = useState(0);
   const [hour, setHour] = useState(0);
@@ -74,26 +74,14 @@ const AddShift = () => {
         amountToPay: Number(amount),
         payStatus: 'Pendiente',
         sessionStatus: sessionStatus,
-        patient: Number(selectedPatient.value),
+        patient: selectedPatient.value,
         note: note
       };
 
 			console.log("AddShift patient", selectedPatient);
 			console.log("AddShift", data);
   
-      fetch(`${config.webAPI}/appointments`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(data)
-      })
-      .then(res => {
-        if(res.status === 401 || res.status === 403) {
-          throw new Error('auth'); // No está autorizado
-        } else { return res.json() }
-      })
+			backendAppointmentAdd(data)
       .then((res) => {
         if(!res.errors) {
           toast('success', 'Turno agregado exitosamente');
@@ -117,7 +105,7 @@ const AddShift = () => {
       <div className="input-rowAdd-shift">
         <div className="addShift-input-container">
           {
-            (state && state.value) > 0 ?
+						(state && state.value!='') ? //A: recibi id para un paciente
               <Select 
                 options={[
                   {

@@ -7,7 +7,7 @@ import Button from '../../components/Button/Button'
 import Spinner from '../../components/Spinner/Spinner'
 import Input from '../../components/Input/Input'
 import Table from '../../components/Table/Table'
-import useGetFetch from '../../hooks/useGetFetch';
+import { backendAppointmentGetAll, useGetFetch } from '../../services/backend';
 import './shiftList.css'
 
 const ShiftList = () => {
@@ -25,7 +25,7 @@ const ShiftList = () => {
 
   useEffect(() => {
     if (errorData) {
-      errorAlert('Error: PatientList',`${(errorData.message && errorData.message.length) > 0 ? errorData.message : errorData}`);
+      errorAlert('Error: AppointmentList',`${(errorData.message && errorData.message.length) > 0 ? errorData.message : errorData}`);
       navigate('/login');
     }
     if(res && res.length > 0) {
@@ -55,17 +55,8 @@ const ShiftList = () => {
 
   // Botón de refresh
   const handleRefresh = (e) => {
-    fetch(`${config.webAPI}/appointments`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
-    .then(res => {
+		backendAppointmentGetAll()
+        .then(res => {
       if(res) {
         setLoading(true)
         const modifiedRes = res.map(shift => {

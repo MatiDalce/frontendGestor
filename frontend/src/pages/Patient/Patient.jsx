@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 import { errorAlert } from '../../assets/helpers/customAlert';
 import './patient.css';
 
-import { firebaseGet, useGetFetch } from '../../services/backend';
+import { backendPatientDelete, useGetFetch } from '../../services/backend';
 
 const Patient = () => {
   let {id} = useParams();
@@ -69,21 +69,7 @@ const Patient = () => {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-          fetch(`${config.webAPI}/patients/${id}`, {
-              method: 'DELETE',
-              headers: {
-                'Authorization': `${localStorage.getItem('token')}`
-              }
-          })
-          .then(response => {
-            if(response.status === 401 || response.status === 403) {
-              throw new Error('auth'); // No está autorizado
-            }
-            if (!response.ok) {
-              toast('error', 'No se ha podido eliminar el paciente')
-              return Promise.reject(new Error("FALLÓ"))
-            } else return response.json();
-          })
+				backendPatientDelete(id)
           .then((res) => {
             if(res) {
               toast('success', 'Paciente eliminado exitosamente')

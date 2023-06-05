@@ -16,6 +16,10 @@ async function firebaseGet(col) {
 	if (col=='patients') {
 		docList= docList.map( v => ({ ...v, completeName: v.name+' '+v.lastName}) )
 	}
+	else if (col=='appointments') {
+		const pac= await backendPatientGetAll();
+		docList= docList.map( a => ({...a, patientId: a.patient, patient: pac.find(p => (p.id == a.patient))}) )
+	}
 	console.log("firebaseGet r", col, docList);
   return docList;
 }
@@ -25,8 +29,9 @@ export const firebaseGetOne = async (col, id) => {
 	const docSnap = await getDoc(docRef);
 
 	if (docSnap.exists()) {
-		console.log("Document data:", docSnap.data());
-		return docSnap.data();
+		const v= { ...(docSnap.data()), id: id };
+		console.log("Document data:", v);
+		return v;
 	} else {
 		// docSnap.data() will be undefined in this case
 		console.log("No such document!");
@@ -68,7 +73,7 @@ export const useGetFetch= (url) => {
 		async function fetchData() {
 			//TODO: log!
 			try {
-				if (key=='limit') {
+				if (key==null || key=='limit') {
 					console.log("BACKEND useGetFetch all", {col, key, url});
 					const data= await firebaseGet(col)
 					console.log("BACKEND useGetFetch all data", {col, key, url, data});
@@ -142,3 +147,18 @@ export const backendPatientUpdate = (id, body) => {
 	return firebaseSet('patients', id, body);
 }
 
+export const backendPatientFind = async (search) => {
+	const dataAll= await backendPatientGetAll();
+	return {patientsWithCompleteName: dataAll.filter( kv => (kv.completeName.indexOf(search)>-1) ) }; //TODO: se puede buscar por DNI
+}
+
+
+export const backendAppointmentAdd= async (data) => {
+	await firebaseSet('appointments', 'AUTO', data);
+	return {} //A: caller espera diccionario y 'errors' si hubo
+}
+
+export const backendAppointmentGetAll = async () => {
+	const apt= await firebaseGet('appointments');
+	return apt;
+}

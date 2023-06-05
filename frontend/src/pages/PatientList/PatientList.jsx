@@ -7,7 +7,7 @@ import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
 import './patientList.css'
 
-import { backendPatientGetAll, useGetFetch } from '../../services/backend';
+import { backendPatientGetAll, backendPatientFind, useGetFetch } from '../../services/backend';
 
 const PatientList = () => {
   const navigate = useNavigate();
@@ -30,19 +30,14 @@ const PatientList = () => {
 
   // Filtro de pacientes
   const handleFilterPatients = (e) => {
-    fetch(`${config.webAPI}/patients/search?q=${search}`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
-    .then(res => {
-      if(res.patientsWithCompleteName.length === 0) return
-      setPatients(res.patientsWithCompleteName)
+		backendPatientFind(search)	
+        .then(res => {
+      if (res.patientsWithCompleteName.length === 0) {
+				setPatients([]);
+			}
+			else {
+	      setPatients(res.patientsWithCompleteName)
+			}
     })
     .catch(err => {
       errorAlert('Error: PatientList',`${(err.message && err.message.length) > 0 ? err.message : err}`); 
