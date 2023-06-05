@@ -7,7 +7,7 @@ import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
 import './patientList.css'
 
-import { firebaseGet, useGetFetch } from '../../services/backend';
+import { backendPatientGetAll, useGetFetch } from '../../services/backend';
 
 const PatientList = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const PatientList = () => {
       navigate('/login');
     }
     if (res && res.length > 0) {
-			setPatients(res.map( v => ({ ...v, completeName: v.name+' '+v.lastName})));
+			setPatients(res);
     }
   }, [res, error, loading, navigate]);
   
@@ -57,16 +57,7 @@ const PatientList = () => {
 
   // Botón de refresh
   const handleRefresh = (e) => {
-    fetch(`${config.webAPI}/patients/limit`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
+		backendPatientGetAll()	
     .then(res => {
       setPatients(res)
     })

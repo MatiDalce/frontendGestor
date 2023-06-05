@@ -12,7 +12,11 @@ import { useState, useEffect } from 'react';
 async function firebaseGet(col) {
   const docCol = collection(db, col);
   const docSnapshot = await getDocs(docCol);
-	const docList = docSnapshot.docs.map(doc => ({id: doc.id, data: doc.data()}));
+	let docList = docSnapshot.docs.map(doc => ({...(doc.data()), id: doc.id}));
+	if (col=='patients') {
+		docList= docList.map( v => ({ ...v, completeName: v.name+' '+v.lastName}) )
+	}
+	console.log("firebaseGet r", col, docList);
   return docList;
 }
 
@@ -66,8 +70,7 @@ export const useGetFetch= (url) => {
 			try {
 				if (key=='limit') {
 					console.log("BACKEND useGetFetch all", {col, key, url});
-					const colData= await firebaseGet(col)
-					const data= colData.map( e => ({id: e.id, ...e.data}))
+					const data= await firebaseGet(col)
 					console.log("BACKEND useGetFetch all data", {col, key, url, data});
 					setRes( data );
 				} else {
@@ -120,6 +123,10 @@ export const backendDownloadAppointments = () => {
 	});
 	window.zip = archivo
 	return new Promise((ok, err) => ok(zip));
+}
+
+export const  backendPatientGetAll = () => {
+	return firebaseGet('patients');
 }
 
 export const backendPatientAdd = async (data) => {
