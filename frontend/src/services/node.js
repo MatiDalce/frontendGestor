@@ -6,20 +6,20 @@ export const backendSignin = (email, pass) => {
 	return fetch(`${config.webAPI}/login`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({password: pass})
+		body: JSON.stringify({ password: pass })
 	})
 		.then(res => {
-			if(res.status === 401 || res.status === 403) {
+			if (res.status === 401 || res.status === 403) {
 				throw new Error('auth'); // No está autorizado
 			}
 			return res.json()
 		})
 		.then(data => {
-			if(data) {
+			if (data) {
 				localStorage.setItem('token', JSON.stringify(data.token));
 				return data;
 			} else {
-				throw new Error("No session data"); 
+				throw new Error("No session data");
 			}
 		})
 }
@@ -35,7 +35,7 @@ export const backendDownloadAppointments = () => {
 		}
 	})
 		.then(response => {
-			if(response.status === 401 || response.status === 403) {
+			if (response.status === 401 || response.status === 403) {
 				throw new Error('auth'); // No está autorizado
 			}
 			if (!response.ok) {
@@ -55,7 +55,44 @@ export const backendPatientAdd = (data) => {
 		body: JSON.stringify(data)
 	})
 		.then(res => {
-			if(res.status === 401 || res.status === 403) {
+			if (res.status === 401 || res.status === 403) {
+				throw new Error('auth'); // No está autorizado
+			} else { return res.json() }
+		})
+}
+
+export const backendPatientUpdate = (id, body) => {
+
+	return	fetch(`${config.webAPI}/patients/${id}`, { 
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${localStorage.getItem('token')}`
+		},
+		body: JSON.stringify(body)
+	})
+		.then(res => {
+			if (res.status === 401 || res.status === 403) {
+				throw new Error('auth'); // No está autorizado
+			}
+			if (!res.ok) {
+				//TODO editar UI : toast('error', 'No se pudo editar al paciente')
+
+				return Promise.reject(new Error("FALLÓ"))
+			} else return res.json();
+		})
+}
+
+// ===== GET DEL PACIENTE =====
+export const backendPatientGetOne = (id) => {
+
+	return fetch(`${config.webAPI}/patients/${id}`, {
+		headers: {
+			'Authorization': `${localStorage.getItem('token')}`
+		}
+	})
+		.then(res => {
+			if (res.status === 401 || res.status === 403) {
 				throw new Error('auth'); // No está autorizado
 			} else { return res.json() }
 		})

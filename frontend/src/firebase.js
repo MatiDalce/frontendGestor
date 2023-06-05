@@ -11,13 +11,13 @@ import { doc, setDoc, addDoc } from "firebase/firestore";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCwZzXtDbjK7DSgw7rla_Ny68KGuqm0BXM",
-  authDomain: "xtest-ff514.firebaseapp.com",
-  projectId: "xtest-ff514",
-  storageBucket: "xtest-ff514.appspot.com",
-  messagingSenderId: "990507772737",
-  appId: "1:990507772737:web:4f3606cabab9d6e50a4fc0",
-  measurementId: "G-H7LLF78LRK"
+  apiKey: "AIzaSyClFAwHQ55xeNyXzPbyZvG_Dd0nSHS8g04",
+  authDomain: "consultorio23-75d8a.firebaseapp.com",
+  projectId: "consultorio23-75d8a",
+  storageBucket: "consultorio23-75d8a.appspot.com",
+  messagingSenderId: "168288283610",
+  appId: "1:168288283610:web:56afe3687f847d0472eee3",
+  measurementId: "G-JZH7810008"
 };
 
 // Initialize Firebase

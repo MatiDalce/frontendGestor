@@ -11,6 +11,8 @@ import { config } from '../../env/config';
 import { convertUnixtimeToDate } from '../../assets/helpers/unixtimeToSomething';
 import Swal from 'sweetalert2';
 import { errorAlert } from '../../assets/helpers/customAlert';
+import { backendPatientGetOne, backendPatientUpdate } from '../../services/backend';
+
 
 const EditPatient = () => {
   const navigate = useNavigate()
@@ -60,17 +62,8 @@ const EditPatient = () => {
         navigate('/listado-pacientes')
       })
     }
-    // ===== GET DEL PACIENTE =====
-    fetch(`${config.webAPI}/patients/${id}`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
+
+    backendPatientGetOne(id)
     .then(res => {
       if(res) {
         if(res.message && res.message === "No patient record found for the given ID") {
@@ -293,23 +286,7 @@ const EditPatient = () => {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`${config.webAPI}/patients/${id}`, { // id = id del turno
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `${localStorage.getItem('token')}`
-            },
-            body: JSON.stringify(body)
-        })
-        .then(res => {
-          if(res.status === 401 || res.status === 403) {
-            throw new Error('auth'); // No está autorizado
-          }
-          if (!res.ok) {
-              toast('error', 'No se pudo editar al paciente')
-              return Promise.reject(new Error("FALLÓ"))
-          } else return res.json();
-        })
+         backendPatientUpdate(id, body)
         .then(res => {
           if(res) {
             navigate('/listado-pacientes', {
