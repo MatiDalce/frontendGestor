@@ -8,7 +8,7 @@ import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
 import './patientList.css'
 
-import { firebaseGet } from '../../firebase.js';
+import { firebaseGet, useGetFetch } from '../../services/backend';
 
 const PatientList = () => {
   const navigate = useNavigate();
@@ -16,22 +16,7 @@ const PatientList = () => {
   const [patients, setPatients] = useState([]);
   const [search, setSearch] = useState('');
 
-	//TODO:FIREBASE const { res, loading, error } = useGetFetch('patients/limit');
-	const [ [res, setRes], [loading, setLoading] , [error, setError] ] = [ null , true, null ].map(useState);
-
-	useEffect(() => {
-		async function fetchData() {
-			//TODO: log!
-			try {
-				const col= await firebaseGet('patients')
-				setRes( col.map( e => ({id: e.id, ...e.data}) ) )
-			} catch (ex) {
-				setError(ex);
-			}
-			setLoading(false);
-		}
-		fetchData();
-	}, [])
+	const { res, loading, error } = useGetFetch('patients/limit');
 
   useEffect(() => {
     if (error) {

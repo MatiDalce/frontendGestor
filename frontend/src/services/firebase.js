@@ -6,6 +6,31 @@ import { auth } from '../firebase.js'; //TODO: reunir todo aca
 import { zipSync, strToU8 } from 'fflate';
 import { doc, getDoc } from "firebase/firestore";
 
+import { useState } from 'react';
+
+export const useGetSet(url) {
+	const [ col, key ] = url.split('/');
+
+	const [ [res, setRes], [loading, setLoading] , [error, setError] ] = [ null , true, null ].map(useState);
+
+		//TODO: si key es limit traer todos
+	useEffect(() => {
+		async function fetchData() {
+			//TODO: log!
+			try {
+				const col= await firebaseGet(col)
+				setRes( col.map( e => ({id: e.id, ...e.data}) ) )
+			} catch (ex) {
+				setError(ex);
+			}
+			setLoading(false);
+		}
+		fetchData();
+	}, [])
+
+	return [ res, loading, error ];
+}
+
 export const backendSignin = (email, pass) => {
 	return signInWithEmailAndPassword(auth, email, pass)
 		.then((userCredential) => {

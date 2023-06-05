@@ -7,8 +7,9 @@ import { config } from '../../env/config';
 import { toast } from '../../assets/helpers/toast';
 import Swal from 'sweetalert2';
 import { errorAlert } from '../../assets/helpers/customAlert';
-import useGetFetch from '../../hooks/useGetFetch';
 import './patient.css';
+
+import { firebaseGet, useGetFetch } from '../../services/backend';
 
 const Patient = () => {
   let {id} = useParams();
