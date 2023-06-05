@@ -2,15 +2,61 @@
 
 //VER: https://www.freecodecamp.org/news/use-firebase-authentication-in-a-react-app/
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { auth } from '../firebase.js'; //TODO: reunir todo aca
+import { auth, db } from '../firebase.js'; //TODO: reunir todo aca
 import { zipSync, strToU8 } from 'fflate';
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, getDocs, setDoc, addDoc, collection } from "firebase/firestore";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export const useGetSet(url) {
+//VER: https://firebase.google.com/docs/firestore/quickstart#read_data
+async function firebaseGet(col) {
+  const docCol = collection(db, col);
+  const docSnapshot = await getDocs(docCol);
+	const docList = docSnapshot.docs.map(doc => ({id: doc.id, data: doc.data()}));
+  return docList;
+}
+
+export const firebaseGetOne = async (col, id) => {
+	const docRef = doc(db, col, id);
+	const docSnap = await getDoc(docRef);
+
+	if (docSnap.exists()) {
+		console.log("Document data:", docSnap.data());
+		return docSnap.data();
+	} else {
+		// docSnap.data() will be undefined in this case
+		console.log("No such document!");
+	}
+}
+
+//VER: https://cloud.google.com/firestore/docs/manage-data/add-data#add_a_document
+function cleanUndefined(data) {
+	const dataClean= {}
+	Object.keys(data).forEach( k => { const v= data[k]; if (v != undefined) { dataClean[k]= v } } );
+	//U: firebase falla si alguna clave tiene valor undefinedç
+	return dataClean;
+}
+window.cleanUndefined= cleanUndefined
+
+async function firebaseSet(col, id, data) {
+	const dataClean= cleanUndefined(data);
+
+	if (id != "AUTO") {
+		await setDoc(doc(db, col, id), dataClean);
+		return {}
+	}
+	else {
+		return await addDoc(collection(db, col), dataClean);
+	}
+}
+window.firebaseGet= firebaseGet
+window.firebaseSet= firebaseSet
+
+
+
+export const useGetFetch= (url) => {
 	const [ col, key ] = url.split('/');
-
+	console.log("BACKEND useGetFetch", {col, key, url});
 	const [ [res, setRes], [loading, setLoading] , [error, setError] ] = [ null , true, null ].map(useState);
 
 		//TODO: si key es limit traer todos
@@ -18,8 +64,17 @@ export const useGetSet(url) {
 		async function fetchData() {
 			//TODO: log!
 			try {
-				const col= await firebaseGet(col)
-				setRes( col.map( e => ({id: e.id, ...e.data}) ) )
+				if (key=='limit') {
+					console.log("BACKEND useGetFetch all", {col, key, url});
+					const colData= await firebaseGet(col)
+					const data= colData.map( e => ({id: e.id, ...e.data}))
+					console.log("BACKEND useGetFetch all data", {col, key, url, data});
+					setRes( data );
+				} else {
+					console.log("BACKEND useGetFetch one", {col, key, url});
+					const data= await firebaseGetOne(col, key);
+					setRes( data );
+				}
 			} catch (ex) {
 				setError(ex);
 			}
@@ -28,7 +83,7 @@ export const useGetSet(url) {
 		fetchData();
 	}, [])
 
-	return [ res, loading, error ];
+	return { res, loading, error };
 }
 
 export const backendSignin = (email, pass) => {
@@ -68,28 +123,15 @@ export const backendDownloadAppointments = () => {
 }
 
 export const backendPatientAdd = async (data) => {
-	firebaseSet('patients', 'AUTO', data);
+	await firebaseSet('patients', 'AUTO', data);
 	return {} //A: caller espera diccionario y 'errors' si hubo
 }
 
-export const  backendPatientGetOne = async (id) => {
-
-	
-const col = "patients"
-	const docRef = doc(db, col, id);
-	const docSnap = await getDoc(docRef);
-
-	if (docSnap.exists()) {
-		console.log("Document data:", docSnap.data());
-		return docSnap.data();
-	} else {
-		// docSnap.data() will be undefined in this case
-		console.log("No such document!");
-	}
-
-
-
+export const  backendPatientGetOne = (id) => {
+	return firebaseGetOne('patients', id);
 }
 
-export const backendPatientUpdate = async (id, body) => {}
+export const backendPatientUpdate = (id, body) => {
+	return firebaseSet('patients', id, body);
+}
 

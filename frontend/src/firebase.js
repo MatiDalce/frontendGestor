@@ -25,25 +25,5 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app)
 
-//VER: https://firebase.google.com/docs/firestore/quickstart#read_data
-async function firebaseGet(col) {
-  const docCol = collection(db, col);
-  const docSnapshot = await getDocs(docCol);
-	const docList = docSnapshot.docs.map(doc => ({id: doc.id, data: doc.data()}));
-  return docList;
-}
 
-
-//VER: https://cloud.google.com/firestore/docs/manage-data/add-data#add_a_document
-async function firebaseSet(col, id, data) {
-	if (id != "AUTO") {
-		return await setDoc(doc(db, col, id), data);
-	}
-	else {
-		return await addDoc(collection(db, col), data);
-	}
-}
-window.firebaseGet= firebaseGet
-window.firebaseSet= firebaseSet
-
-export {app, auth, db, firebaseGet, firebaseSet}
+export {app, auth, db}
