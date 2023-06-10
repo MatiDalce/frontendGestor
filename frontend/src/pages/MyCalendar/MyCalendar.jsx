@@ -76,7 +76,7 @@ const MyCalendar = () => {
     handleOpenModal()
   }
 
-  const widnowWidth = window.innerWidth;
+  const windowWidth = window.innerWidth;
 
   function renderEventContent(eventInfo) {
     const circleStyle = {
@@ -90,23 +90,23 @@ const MyCalendar = () => {
     };
 
     const eventStyle = {
-      fontSize: widnowWidth > 1024 ? '1em' : "0.7em"
+      fontSize: windowWidth > 1024 ? '1em' : "0.7em"
     }
 
     const barStyle = {
-      fontSize: widnowWidth > 1024 ? '0.8em' : "0.6em",
+      fontSize: windowWidth > 1024 ? '0.8em' : "0.6em",
       color: "#5c9d4b",
-      display: widnowWidth > 1024 ? 'inline-block' : "block",
+      display: windowWidth > 1024 ? 'inline-block' : "block",
     }
 
     return (
       <div>
         {
-          widnowWidth > 1024 && <div style={circleStyle}></div>
+          windowWidth > 1024 && <div style={circleStyle}></div>
         }
-        <span style={eventStyle}>{eventInfo.timeText}</span>
-        <span style={eventStyle}>{eventInfo.event.title}</span>
-        <span style={barStyle}> | {eventInfo.event.extendedProps.sessionStatus}</span>
+        <span style={eventStyle}>{eventInfo.timeText} {eventInfo.event.title} | {eventInfo.event.extendedProps.sessionStatus}</span>
+        {/* <span style={eventStyle}>{eventInfo.event.title}</span>
+        <span style={barStyle}> | {eventInfo.event.extendedProps.sessionStatus}</span> */}
       </div>
     );
   }

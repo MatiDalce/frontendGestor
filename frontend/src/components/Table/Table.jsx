@@ -44,6 +44,45 @@ const Table = ({
                 {row[key]}
               </td>
           }
+        } else if(key === "sessionStatus") {
+          switch (row[key]) {
+            case "Presencial":
+              return <td className="table__cell" role="cell" style={{color:'var(--green-bg)', fontWeight: 'bold'}} data-label={value} key={key}>
+                {row[key]}
+              </td>
+            case "Altas":
+              return <td className="table__cell" role="cell" style={{color:'var(--yellow-bg)', fontWeight: 'bold'}} data-label={value} key={key}>
+                {row[key]}
+              </td>
+            case "Entrevista":
+              return <td className="table__cell" role="cell" style={{color:'var(--red-bg)', fontWeight: 'bold'}} data-label={value} key={key}>
+                {row[key]}
+              </td>
+            case "Virtual":
+              return <td className="table__cell" role="cell" style={{color:'var(--skyblue-bg)', fontWeight: 'bold'}} data-label={value} key={key}>
+                {row[key]}
+              </td>
+            case "No olvidar":
+              return <td className="table__cell" role="cell" style={{color:'var(--secondary-green-bg)', fontWeight: 'bold'}} data-label={value} key={key}>
+                {row[key]}
+              </td>
+            case "Cancelado":
+              return <td className="table__cell" role="cell" style={{color:'var(--violet-bg)', fontWeight: 'bold'}} data-label={value} key={key}>
+                {row[key]}
+              </td>
+            case "No se presentó":
+              return <td className="table__cell" role="cell" style={{color:'var(--orange-bg)', fontWeight: 'bold'}} data-label={value} key={key}>
+                {row[key]}
+              </td>
+            case "Citas medicas":
+              return <td className="table__cell" role="cell" style={{color:'var(--brown-bg)', fontWeight: 'bold'}} data-label={value} key={key}>
+                {row[key]}
+              </td>
+            default:
+              return <td className="table__cell" role="cell" style={{color:'var(--darkblue-bg)', fontWeight: 'bold'}} data-label={value} key={key}>
+                {row[key]}
+              </td>
+          }
         } else {
           return <td className="table__cell" role="cell" data-label={value} key={key}>
             {row[key]}

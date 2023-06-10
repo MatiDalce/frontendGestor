@@ -6,7 +6,7 @@
 
 .table__heading,
 .table__cell {
-    border: 3px solid var(--skyblue-bg);
+    border: 3px solid #479bbe;
     text-align: left;
     padding: 0.5rem;
 }
@@ -16,8 +16,7 @@
 }
 
 .table__row:nth-child(even) {
-    background-color: var(--skyblue-bg);
-    color: var(--white-bg);
+    background-color: #5bc0eba2;
 }
 
 .table__row:nth-child(even):hover {

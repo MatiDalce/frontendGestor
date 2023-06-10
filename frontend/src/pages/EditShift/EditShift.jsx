@@ -161,18 +161,37 @@ const EditShift = () => {
                 text: 'Presencial',
               },
               {
+                value: 'Altas',
+                text: 'Altas',
+              },
+              {
+                value: 'Entrevista',
+                text: 'Entrevista',
+              },
+              {
                 value: 'Virtual',
                 text: 'Virtual',
               },
               {
-                value: 'Pospuesto',
-                text: 'Pospuesto',
+                value: 'No olvidar',
+                text: 'No olvidar',
               },
               {
                 value: 'Cancelado',
                 text: 'Cancelado',
               },
-              
+              {
+                value: 'No se presentó',
+                text: 'No se presentó',
+              },
+              {
+                value: 'Citas medicas',
+                text: 'Citas medicas',
+              },
+              {
+                value: 'Reprogramado',
+                text: 'Reprogramado',
+              }
             ]}
             value={sessionStatus}
             onChange={handleSessionStatus}
