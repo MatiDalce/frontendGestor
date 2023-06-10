@@ -14,7 +14,6 @@ import useGetFetch from '../../hooks/useGetFetch';
 
 const EditShift = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { id } = useParams();
   const [ patientID, setPatientID] = useState()
   const [ date, setDate ] = useState()

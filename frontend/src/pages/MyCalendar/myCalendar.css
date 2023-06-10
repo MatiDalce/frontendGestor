@@ -9,6 +9,10 @@
     align-items: center;
 }
 
+.fc-timeline-event {
+    overflow: hidden !important;
+}
+
 /* EXTRA SMALL */
 @media screen and (max-width: 576px) {
 

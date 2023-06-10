@@ -1,3 +1,8 @@
+.addShift-name {
+    text-align: center;
+    font-size: 1.5em;
+}
+
 .select-shift-center {
     display: flex;
     justify-content: center;

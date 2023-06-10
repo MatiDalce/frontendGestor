@@ -37,15 +37,14 @@ const AddShift = () => {
       setPatientList(patientsListNames)
     }
     if(state) {
-			console.log("AddShift INICIAL state", state);
+			// console.log("AddShift INICIAL state", state);
       setSelectedPatient({value: state.value, text: state.text})
     }
   }, [patientRes, patientError, patientLoading, navigate, state]);
 
   // ===== MANEJADORES DE ESTADOS =====
   const handleSelectPatient = (ev) => {
-		const patientValue= ev.target.value;
-		console.log("AddShift handleSelectPatient", patientValue, ev)
+		const patientValue= ev.value;
 		setSelectedPatient({value: patientValue, text: 'TODO:'})
   }
   const handleSessionStatus = (e) => {
@@ -117,21 +116,8 @@ const AddShift = () => {
       <div className="input-rowAdd-shift">
         <div className="addShift-input-container">
           {
-            (state && state.value) > 0 ?
-              <Select 
-                options={[
-                  {
-                    value: state.value,
-                    text: state.text,
-                  }
-                ]}
-                onChange={handleSelectPatient}
-                colorLabel='var(--black-bg)' 
-                hasLabel
-                labelTitle='Seleccione el paciente'
-                isLabelCenter
-                nameProp='selectPatient'
-              />
+            (state && state.value > 0) ?
+              <p className='addShift-name'>{state.text}</p>
             :
             <SearchableDropdown
               list={[{text:'', value:null}, ...patientList]}
