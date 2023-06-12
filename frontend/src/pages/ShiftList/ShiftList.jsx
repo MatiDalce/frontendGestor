@@ -10,6 +10,8 @@ import Table from '../../components/Table/Table'
 import { backendAppointmentGetAll, useGetFetch } from '../../services/backend';
 import './shiftList.css'
 
+import { backendShiftSearch } from '../../services/backend';
+
 const ShiftList = () => {
   const navigate = useNavigate()
     // ===== ESTADO =====
@@ -82,16 +84,7 @@ const ShiftList = () => {
   // ===== Input de búsqueda =====
   const handleShiftSearch = () => {
     setLoading(true)
-    fetch(`${config.webAPI}/appointments/search?q=${filterShift.name}`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
+    backendShiftSearch()
     .then(res => {
       if(!res.appointments) return
       const modifiedRes = res.appointments.map(shift => {

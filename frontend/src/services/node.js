@@ -175,10 +175,25 @@ export const backendShiftEdit = (id) => {
 export const backendShiftdelete = (id) => {
 
 	return
-		fetch(`${config.webAPI}/appointments/${id}`, {
-		  method: 'DELETE',
-		  headers: {
+	fetch(`${config.webAPI}/appointments/${id}`, {
+		method: 'DELETE',
+		headers: {
 			'Authorization': `${localStorage.getItem('token')}`
-		  }
+		}
+	})
+}
+
+export const backendShiftSearch = ()=>{
+
+
+	return fetch(`${config.webAPI}/appointments/search?q=${filterShift.name}`, {
+		headers: {
+			'Authorization': `${localStorage.getItem('token')}`
+		}
+	})
+		.then(res => {
+			if (res.status === 401 || res.status === 403) {
+				throw new Error('auth'); // No está autorizado
+			} else { return res.json() }
 		})
 }
