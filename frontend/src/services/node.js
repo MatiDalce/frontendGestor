@@ -63,7 +63,7 @@ export const backendPatientAdd = (data) => {
 
 export const backendPatientUpdate = (id, body) => {
 
-	return	fetch(`${config.webAPI}/patients/${id}`, { 
+	return fetch(`${config.webAPI}/patients/${id}`, {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
@@ -100,18 +100,18 @@ export const backendPatientGetOne = (id) => {
 
 export const backendPatientFind = (search) => {
 	return fetch(`${config.webAPI}/patients/search?q=${search}`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
+		headers: {
+			'Authorization': `${localStorage.getItem('token')}`
+		}
+	})
+		.then(res => {
+			if (res.status === 401 || res.status === 403) {
+				throw new Error('auth'); // No está autorizado
+			} else { return res.json() }
+		})
 }
 
-export const backendAppointmentAdd= (data) => {
+export const backendAppointmentAdd = (data) => {
 	return fetch(`${config.webAPI}/appointments`, {
 		method: 'POST',
 		headers: {
@@ -121,7 +121,7 @@ export const backendAppointmentAdd= (data) => {
 		body: JSON.stringify(data)
 	})
 		.then(res => {
-			if(res.status === 401 || res.status === 403) {
+			if (res.status === 401 || res.status === 403) {
 				throw new Error('auth'); // No está autorizado
 			} else { return res.json() }
 		})
@@ -129,20 +129,20 @@ export const backendAppointmentAdd= (data) => {
 
 export const backendAppointmentGetAll = () => {
 	return fetch(`${config.webAPI}/appointments`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
-    .then(res => {
-      if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
-      } else { return res.json() }
-    })
+		headers: {
+			'Authorization': `${localStorage.getItem('token')}`
+		}
+	})
+		.then(res => {
+			if (res.status === 401 || res.status === 403) {
+				throw new Error('auth'); // No está autorizado
+			} else { return res.json() }
+		})
 }
 
 //TODO: crear las que siguen en firebase
 
-export const backendPatientDelete= (id) => {
+export const backendPatientDelete = (id) => {
 	return fetch(`${config.webAPI}/patients/${id}`, {
 		method: 'DELETE',
 		headers: {
@@ -150,12 +150,35 @@ export const backendPatientDelete= (id) => {
 		}
 	})
 		.then(response => {
-			if(response.status === 401 || response.status === 403) {
+			if (response.status === 401 || response.status === 403) {
 				throw new Error('auth'); // No está autorizado
 			}
 			if (!response.ok) {
 				//TODO: toast('error', 'No se ha podido eliminar el paciente')
 				return Promise.reject(new Error("FALLÓ"))
 			} else return response.json();
+		})
+}
+
+
+export const backendShiftEdit = (id) => {
+	return fetch(`${config.webAPI}/appointments/${id}`, { // id = id del turno
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `${localStorage.getItem('token')}`
+		},
+		body: JSON.stringify(body)
+	})
+}
+
+export const backendShiftdelete = (id) => {
+
+	return
+		fetch(`${config.webAPI}/appointments/${id}`, {
+		  method: 'DELETE',
+		  headers: {
+			'Authorization': `${localStorage.getItem('token')}`
+		  }
 		})
 }

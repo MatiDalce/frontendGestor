@@ -11,6 +11,8 @@ import Swal from 'sweetalert2';
 import { errorAlert } from '../../assets/helpers/customAlert';
 import useGetFetch from '../../hooks/useGetFetch';
 
+import { backendShiftdelete } from '../../services/backend';
+
 const Shift = () => {
   const navigate = useNavigate()
   let {id} = useParams();
@@ -72,12 +74,7 @@ const Shift = () => {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`${config.webAPI}/appointments/${id}`, {
-              method: 'DELETE',
-              headers: {
-                'Authorization': `${localStorage.getItem('token')}`
-              }
-            })
+           backendShiftdelete(id)
             .then(response => {
               if(response.status === 401 || response.status === 403) {
                 throw new Error('auth'); // No está autorizado

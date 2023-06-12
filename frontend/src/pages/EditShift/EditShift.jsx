@@ -12,6 +12,8 @@ import Select from '../../components/Select/Select';
 import { errorAlert } from '../../assets/helpers/customAlert';
 import useGetFetch from '../../hooks/useGetFetch';
 
+import { backendShiftEdit } from '../../services/backend';
+
 const EditShift = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -114,14 +116,8 @@ const EditShift = () => {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`${config.webAPI}/appointments/${id}`, { // id = id del turno
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `${localStorage.getItem('token')}`
-            },
-            body: JSON.stringify(body)
-        })
+      
+       backendShiftEdit(id)
         .then(res => {
             if(res.status === 401 || res.status === 403) {
               throw new Error('auth'); // No está autorizado
