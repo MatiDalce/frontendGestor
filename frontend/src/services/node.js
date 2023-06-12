@@ -175,13 +175,13 @@ export const backendShiftEdit = (id) => {
 export const backendShiftdelete = (id) => {
 
 	return
-	fetch(`${config.webAPI}/appointments/${id}`, {
+	fetch(`${config.webAPI}/appointments/${id}`, { // id = id del turno
 		method: 'DELETE',
 		headers: {
 			'Authorization': `${localStorage.getItem('token')}`
 		}
 	})
-}
+} // revisar then en jsx shift TODO toast
 
 export const backendShiftSearch = () => {
 
@@ -205,3 +205,8 @@ export const backendDownloadShift = (id) => {
 		}
 	})
 }
+
+// MY CALENDAR
+
+
+
