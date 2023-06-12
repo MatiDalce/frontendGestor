@@ -183,7 +183,7 @@ export const backendShiftdelete = (id) => {
 	})
 }
 
-export const backendShiftSearch = ()=>{
+export const backendShiftSearch = () => {
 
 
 	return fetch(`${config.webAPI}/appointments/search?q=${filterShift.name}`, {
@@ -196,4 +196,12 @@ export const backendShiftSearch = ()=>{
 				throw new Error('auth'); // No está autorizado
 			} else { return res.json() }
 		})
+}
+
+export const backendDownloadShift = (id) => {
+	fetch(`${config.webAPI}/appointments/download/${id}`, {
+		headers: {
+			'Authorization': `${localStorage.getItem('token')}`
+		}
+	})
 }

@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 import { errorAlert } from '../../assets/helpers/customAlert';
 import useGetFetch from '../../hooks/useGetFetch';
 
-import { backendShiftdelete } from '../../services/backend';
+import { backendShiftdelete, backendDownloadShift } from '../../services/backend';
 
 const Shift = () => {
   const navigate = useNavigate()
@@ -103,11 +103,7 @@ const Shift = () => {
 
   // ===== DESCARGA DEL TURNO =====
   const handleDownloadShift = () => {
-    fetch(`${config.webAPI}/appointments/download/${id}`, {
-      headers: {
-        'Authorization': `${localStorage.getItem('token')}`
-      }
-    })
+    backendDownloadShift(id)
     .then(response => {
       if(response.status === 401 || response.status === 403) {
         throw new Error('auth'); // No está autorizado
