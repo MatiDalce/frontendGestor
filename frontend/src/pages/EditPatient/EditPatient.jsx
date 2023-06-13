@@ -68,7 +68,7 @@ const EditPatient = () => {
     })
     .then(res => {
       if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
+        throw new Error('No está autorizado'); // No está autorizado
       } else { return res.json() }
     })
     .then(res => {
@@ -303,7 +303,7 @@ const EditPatient = () => {
         })
         .then(res => {
           if(res.status === 401 || res.status === 403) {
-            throw new Error('auth'); // No está autorizado
+            throw new Error('No está autorizado'); // No está autorizado
           }
           if (!res.ok) {
               toast('error', 'No se pudo editar al paciente')

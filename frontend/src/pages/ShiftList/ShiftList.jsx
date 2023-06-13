@@ -62,7 +62,7 @@ const ShiftList = () => {
     })
     .then(res => {
       if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
+        throw new Error('No está autorizado'); // No está autorizado
       } else { return res.json() }
     })
     .then(res => {
@@ -98,7 +98,7 @@ const ShiftList = () => {
     })
     .then(res => {
       if(res.status === 401 || res.status === 403) {
-        throw new Error('auth'); // No está autorizado
+        throw new Error('No está autorizado'); // No está autorizado
       } else { return res.json() }
     })
     .then(res => {

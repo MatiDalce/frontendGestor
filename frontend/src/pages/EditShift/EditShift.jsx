@@ -123,7 +123,7 @@ const EditShift = () => {
         })
         .then(res => {
             if(res.status === 401 || res.status === 403) {
-              throw new Error('auth'); // No está autorizado
+              throw new Error('No está autorizado'); // No está autorizado
             }
             if (!res.ok) {
                 toast('error', 'No se ha podido editar el turno')
