@@ -106,7 +106,7 @@ const MyCalendar = () => {
     }
 
     const circleStyle = {
-      backgroundColor: 'var(--skyblue-bg)', // Color de fondo del evento
+      backgroundColor: sessionStatusColor(eventInfo.event.extendedProps.sessionStatus), // Color de fondo del evento
       borderRadius: '50%', // Hace que el evento tenga forma de círculo
       color: '#fff', // Color del texto dentro del evento
       display: 'inline-block',
@@ -130,11 +130,11 @@ const MyCalendar = () => {
     const sessionStatusFirstLetter = eventInfo.event.extendedProps.sessionStatus !== '' ? eventInfo.event.extendedProps.sessionStatus.charAt(0) : '';
 
     return (
-      <div>
-        {
-          windowWidth > 1024 && <div style={circleStyle}></div>
-        }
-        <span style={eventStyle}>{eventInfo.timeText}</span>
+      <div title={eventInfo.timeText + 'hs ' + eventInfo.event.title + ' | ' + eventInfo.event.extendedProps.sessionStatus}>
+          {
+            windowWidth > 1024 && <div style={circleStyle}></div>
+          }
+        <span style={eventStyle}>{eventInfo.timeText}hs</span>
         <span style={eventStyle}>{eventInfo.event.title}</span>
         <span style={barStyle}> | {sessionStatusFirstLetter}</span>
       </div>
