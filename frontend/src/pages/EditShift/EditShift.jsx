@@ -10,7 +10,7 @@ import { convertISOStringtoDateTime, joinDateTimeToISOString } from '../../asset
 import Swal from 'sweetalert2';
 import Select from '../../components/Select/Select';
 import { errorAlert } from '../../assets/helpers/customAlert';
-import useGetFetch from '../../hooks/useGetFetch';
+import { useGetFetch } from '../../services/backend';
 
 import { backendShiftEdit } from '../../services/backend';
 

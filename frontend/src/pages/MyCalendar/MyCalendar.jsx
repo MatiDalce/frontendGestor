@@ -5,7 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import esLocale from '@fullcalendar/core/locales/es'; 
 import { useNavigate } from 'react-router-dom';
-import useGetFetch from '../../hooks/useGetFetch';
+import { useGetFetch } from '../../services/backend';
 import { errorAlert } from '../../assets/helpers/customAlert';
 import { addOneHourISOString } from '../../assets/helpers/unixtimeToSomething';
 import Modal from '../../components/Modal/Modal';

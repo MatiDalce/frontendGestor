@@ -126,8 +126,8 @@ export const backendDownloadAppointments = () => {
 			'Dia dos.txt': [strToU8('juana hello world 2')],
 		}],
 	});
-	window.zip = archivo
-	return new Promise((ok, err) => ok(zip));
+	window.zip = archivo //A: es un array
+	return new Promise((ok, err) => ok(new Blob(archivo)));
 }
 
 export const  backendPatientGetAll = () => {

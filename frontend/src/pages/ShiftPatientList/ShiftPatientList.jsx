@@ -8,7 +8,7 @@ import Select from '../../components/Select/Select';
 import Table from '../../components/Table/Table';
 import './shiftPatientList.css';
 import { errorAlert } from '../../assets/helpers/customAlert';
-import useGetFetch from '../../hooks/useGetFetch';
+import { useGetFetch } from '../../services/backend';
 
 const ShiftPatientList = () => {
 

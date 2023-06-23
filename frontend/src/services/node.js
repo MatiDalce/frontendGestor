@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { config } from '../env/config';
 
-const useGetFetch = (url) => {
+export const useGetFetch = (url) => {
     const [res, setRes] = useState();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
@@ -113,6 +113,19 @@ export const backendPatientUpdate = (id, body) => {
 }
 
 // ===== GET DEL PACIENTE =====
+export const backendPatientGetAll = () => {
+	return fetch(`${config.webAPI}/patients/`, {
+		headers: {
+			'Authorization': `${localStorage.getItem('token')}`
+		}
+	})
+		.then(res => {
+			if (res.status === 401 || res.status === 403) {
+				throw new Error('auth'); // No está autorizado
+			} else { return res.json() }
+	})
+}
+
 export const backendPatientGetOne = (id) => {
 
 	return fetch(`${config.webAPI}/patients/${id}`, {

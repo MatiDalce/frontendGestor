@@ -9,7 +9,7 @@ import { convertISOStringtoDateTime } from '../../assets/helpers/unixtimeToSomet
 import './shift.css'
 import Swal from 'sweetalert2';
 import { errorAlert } from '../../assets/helpers/customAlert';
-import useGetFetch from '../../hooks/useGetFetch';
+import { useGetFetch } from '../../services/backend';
 
 import { backendShiftdelete, backendDownloadShift } from '../../services/backend';
 
