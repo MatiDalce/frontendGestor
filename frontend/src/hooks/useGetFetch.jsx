@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { config } from '../env/config';
 
 const useGetFetch = (url) => {
+		console.error("REEMPLAZAR useGetFetch importado de hooks por importado de backend")
     const [res, setRes] = useState();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
