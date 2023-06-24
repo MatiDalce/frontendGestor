@@ -20,11 +20,18 @@
   --skyblue-bg: #5BC0EB;
   --secondary-skyblue-bg: #9cd6ef;
   --third-skyblue-bg: #bde9fc;
-  --white-bg: #fff;
+  --white-bg: hsl(0, 0%, 100%);
   --red-bg: #EB5B5B;
-  --green-bg: #78EB5B;
+  --yellow-bg: #e9d311;
+  --green-bg: #5cb846;
+  --secondary-green-bg: #4fa03b;
   --gray-bg: #f2f2f2;
   --black-bg: #000;
+
+  --violet-bg: #eb5bd8;
+  --orange-bg: #eba85b;
+  --brown-bg: #ca8505;
+  --darkblue-bg: #5b5deb;
 
   /* CALENDARIO BOTONES  */
   --fc-button-text-color: #fff;

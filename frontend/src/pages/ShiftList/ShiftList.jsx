@@ -27,7 +27,7 @@ const ShiftList = () => {
 
   useEffect(() => {
     if (errorData) {
-      errorAlert('Error: AppointmentList',`${(errorData.message && errorData.message.length) > 0 ? errorData.message : errorData}`);
+      errorAlert('Error: ShiftList',`${(errorData.message && errorData.message.length) > 0 ? errorData.message : errorData}`);
       navigate('/login');
     }
     if(res && res.length > 0) {

@@ -16,7 +16,6 @@ import { backendShiftEdit } from '../../services/backend';
 
 const EditShift = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { id } = useParams();
   const [ patientID, setPatientID] = useState()
   const [ date, setDate ] = useState()
@@ -120,7 +119,7 @@ const EditShift = () => {
        backendShiftEdit(id)
         .then(res => {
             if(res.status === 401 || res.status === 403) {
-              throw new Error('auth'); // No está autorizado
+              throw new Error('No está autorizado'); // No está autorizado
             }
             if (!res.ok) {
                 toast('error', 'No se ha podido editar el turno')
@@ -157,18 +156,37 @@ const EditShift = () => {
                 text: 'Presencial',
               },
               {
+                value: 'Altas',
+                text: 'Altas',
+              },
+              {
+                value: 'Entrevista',
+                text: 'Entrevista',
+              },
+              {
                 value: 'Virtual',
                 text: 'Virtual',
               },
               {
-                value: 'Pospuesto',
-                text: 'Pospuesto',
+                value: 'No olvidar',
+                text: 'No olvidar',
               },
               {
                 value: 'Cancelado',
                 text: 'Cancelado',
               },
-              
+              {
+                value: 'No se presentó',
+                text: 'No se presentó',
+              },
+              {
+                value: 'Citas medicas',
+                text: 'Citas medicas',
+              },
+              {
+                value: 'Reprogramado',
+                text: 'Reprogramado',
+              }
             ]}
             value={sessionStatus}
             onChange={handleSessionStatus}

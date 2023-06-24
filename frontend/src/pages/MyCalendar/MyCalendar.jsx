@@ -76,42 +76,71 @@ const MyCalendar = () => {
     handleOpenModal()
   }
 
-  const widnowWidth = window.innerWidth;
+  const windowWidth = window.innerWidth;
 
   function renderEventContent(eventInfo) {
+
+    const sessionStatusColor = (statusColor) => {
+      switch (statusColor) {
+        case 'Presencial':
+          return 'var(--green-bg)';
+        case 'Altas':
+          return 'var(--yellow-bg)';
+        case 'Entrevista':
+          return 'var(--red-bg)';
+        case 'Virtual':
+          return 'var(--skyblue-bg)';
+        case 'No olvidar':
+          return 'var(--secondary-green-bg)';
+        case 'Cancelado':
+          return 'var(--violet-bg)';
+        case 'No se presento':
+          return 'var(--orange-bg)';
+        case 'Citas medicas':
+          return 'var(--brown-bg)';
+        case 'Reprogramado':
+          return 'var(--darkblue-bg)';
+        default:
+          return '#000';
+      }
+    }
+
     const circleStyle = {
-      backgroundColor: 'var(--skyblue-bg)', // Color de fondo del evento
+      backgroundColor: sessionStatusColor(eventInfo.event.extendedProps.sessionStatus), // Color de fondo del evento
       borderRadius: '50%', // Hace que el evento tenga forma de círculo
       color: '#fff', // Color del texto dentro del evento
       display: 'inline-block',
-      marginRight: "3px",
+      marginRight: "2px",
       width: "10px",
       height: "10px",
     };
 
     const eventStyle = {
-      fontSize: widnowWidth > 1024 ? '1em' : "0.7em"
+      fontSize: windowWidth > 1024 ? '1em' : "0.7em",
+      marginRight: "5px",
     }
 
     const barStyle = {
-      fontSize: widnowWidth > 1024 ? '0.8em' : "0.6em",
-      color: "#5c9d4b",
-      display: widnowWidth > 1024 ? 'inline-block' : "block",
+      fontSize: windowWidth > 1024 ? '0.8em' : "0.6em",
+      color: sessionStatusColor(eventInfo.event.extendedProps.sessionStatus),
+      display: windowWidth > 1024 ? 'inline-block' : "block",
+      fontWeight: 'bold',
     }
 
+    const sessionStatusFirstLetter = eventInfo.event.extendedProps.sessionStatus !== '' ? eventInfo.event.extendedProps.sessionStatus.charAt(0) : '';
+
     return (
-      <div>
-        {
-          widnowWidth > 1024 && <div style={circleStyle}></div>
-        }
-        <span style={eventStyle}>{eventInfo.timeText}</span>
+      <div title={eventInfo.timeText + 'hs ' + eventInfo.event.title + ' | ' + eventInfo.event.extendedProps.sessionStatus}>
+          {
+            windowWidth > 1024 && <div style={circleStyle}></div>
+          }
+        <span style={eventStyle}>{eventInfo.timeText}hs</span>
         <span style={eventStyle}>{eventInfo.event.title}</span>
-        <span style={barStyle}> | {eventInfo.event.extendedProps.sessionStatus}</span>
+        <span style={barStyle}> | {sessionStatusFirstLetter}</span>
       </div>
     );
   }
   
-
   // ===== HTML =====
   return (
         <div className="calendar-box">
@@ -144,7 +173,6 @@ const MyCalendar = () => {
               eventContent={renderEventContent}
               locale={esLocale} // Idioma
               eventClick={handleEventOnClick} // Da info sobre el evento
-              eventBackgroundColor='var(--skyblue-bg)'
               stickyHeaderDates // Mantiene pegadas las cabeceras de los días
               // dateClick={handleDateClick} // Da info sobre el día
               // weekends={false} // Quita los fines de semana

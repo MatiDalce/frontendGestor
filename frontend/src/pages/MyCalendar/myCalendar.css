@@ -9,6 +9,10 @@
     align-items: center;
 }
 
+.fc-direction-ltr .fc-daygrid-event.fc-event-end, .fc-direction-rtl .fc-daygrid-event.fc-event-start {
+    overflow: hidden !important;
+}
+
 /* EXTRA SMALL */
 @media screen and (max-width: 576px) {
 

@@ -77,7 +77,7 @@ const Shift = () => {
            backendShiftdelete(id)
             .then(response => {
               if(response.status === 401 || response.status === 403) {
-                throw new Error('auth'); // No está autorizado
+                throw new Error('No está autorizado'); // No está autorizado
               } 
               if (!response.ok) {             
                 return Promise.reject(new Error("FALLÓ"))
@@ -105,7 +105,7 @@ const Shift = () => {
     backendDownloadShift(id)
     .then(response => {
       if(response.status === 401 || response.status === 403) {
-        throw new Error('auth'); // No está autorizado
+        throw new Error('No está autorizado'); // No está autorizado
       } 
       if (!response.ok) {
         toast('error', 'Ha ocurrido un error en la descarga')
