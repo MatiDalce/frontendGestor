@@ -162,3 +162,23 @@ export const backendAppointmentGetAll = async () => {
 	const apt= await firebaseGet('appointments');
 	return apt;
 }
+
+export const  backendShiftEdit = async (id, body) => {
+	return firebaseSet('appointments', id, body)
+ 
+
+}
+
+export const backendPatientDelete = async (id) => {
+	return 
+}
+
+export const backendShiftSearch = async () => {
+
+}
+
+export const backendShiftdelete = async (id) => {
+
+}
+
+export const backendDownloadShift = async ()=> {}

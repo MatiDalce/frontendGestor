@@ -116,7 +116,7 @@ const EditShift = () => {
     }).then((result) => {
       if (result.isConfirmed) {
       
-       backendShiftEdit(id)
+       backendShiftEdit(id, body)
         .then(res => {
             if(res.status === 401 || res.status === 403) {
               throw new Error('No está autorizado'); // No está autorizado
