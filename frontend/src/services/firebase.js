@@ -169,15 +169,18 @@ export const  backendShiftEdit = async (id, body) => {
 
 }
 
-export const backendPatientDelete = async (id) => {
-	return 
-}
+export const backendPatientDelete = (id) => {
+	return firebaseDelete('patients', id);
+  }
+  
 
 export const backendShiftSearch = async () => {
+	const apt= await firebaseGet('appointments')
 
 }
 
 export const backendShiftdelete = async (id) => {
+	return firebaseDelete('appointments', id);
 
 }
 
