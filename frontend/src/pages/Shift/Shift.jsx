@@ -79,8 +79,7 @@ const Shift = () => {
               if(response.status === 401 || response.status === 403) {
                 throw new Error('auth'); // No está autorizado
               } 
-              if (!response.ok) {
-                toast('error', 'No se ha podido eliminar el turno')
+              if (!response.ok) {             
                 return Promise.reject(new Error("FALLÓ"))
               } else return response.json();
             })
