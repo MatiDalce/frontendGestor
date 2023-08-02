@@ -32,9 +32,10 @@ const ShiftList = () => {
     }
     if(res && res.length > 0) {
       const modifiedRes = res.map(shift => {
+        // DBG console.log(shift)
         return {
           id: shift.id,
-          completeName: `${shift.patient.name} ${shift.patient.lastName}`,
+          completeName: shift.patient ? `${shift.patient.name} ${shift.patient.lastName}` : "NO PATIENT",
           day: convertISOStringtoDateTime(shift.day, 'date'),
           hour: convertISOStringtoDateTime(shift.day, 'hour')+' hs',
           payStatus: shift.payStatus,
@@ -64,7 +65,7 @@ const ShiftList = () => {
         const modifiedRes = res.map(shift => {
           return {
             id: shift.id,
-            completeName: `${shift.patient.name} ${shift.patient.lastName}`,
+            completeName: shift.patient ? `${shift.patient.name} ${shift.patient.lastName}` : "NO PATIENT",
             day: convertISOStringtoDateTime(shift.day, 'date'),
             hour: convertISOStringtoDateTime(shift.day, 'hour') + ' hs',
             payStatus: shift.payStatus,
@@ -90,7 +91,7 @@ const ShiftList = () => {
       const modifiedRes = res.appointments.map(shift => {
         return {
           id: shift.id,
-          completeName: `${shift.patient.name} ${shift.patient.lastName}`,
+         completeName: shift.patient ? `${shift.patient.name} ${shift.patient.lastName}` : "NO PATIENT",
           day: convertISOStringtoDateTime(shift.day, 'date'),
           hour: convertISOStringtoDateTime(shift.day, 'hour') + ' hs',
           payStatus: shift.payStatus,

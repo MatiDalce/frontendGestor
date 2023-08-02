@@ -48,8 +48,8 @@ const Shift = () => {
         shiftNotExist()
       } else {
         setShift({
-          name: res.patient.name,
-          lastName: res.patient.lastName,
+          name: res.patient ? res.patient.name : "NO PATIENT",
+          lastName: res.patient ? res.patient.lastName : "NO PATIENT",
           status: res.payStatus,
           amount: res.amountToPay,
           note: res.note,

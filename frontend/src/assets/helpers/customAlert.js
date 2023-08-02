@@ -4,6 +4,7 @@ export function errorAlert(
     title = '',
     msg = '',
 ) {
+    if ( msg.indexOf("reading 'status'") > -1 ) throw("error alert")
     console.log(`${title}: ${msg}`);
     return Swal.fire({
         icon: 'error',
